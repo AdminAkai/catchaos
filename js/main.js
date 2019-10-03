@@ -50,8 +50,8 @@ function spawnEnemy() {
     scale: {
       value: 2,
       duration: 1600,
-      delay: 800,
-      easing: 'easeInOutQuart'
+      delay: 0,
+      easing: 'easeOutQuad'
     }, // All properties except 'scale' inherit 250ms delay
   });
   game.enemyCount++
