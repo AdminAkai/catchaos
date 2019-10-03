@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+html {
+    height: 100vh;
+    height: 100vw;
+}
+
 @media only screen and (max-width: 400px) {
     .nav-header {
         width: 100%;
@@ -15,7 +20,7 @@
         background-size:contain;
         background-position:center;
     }
-}=
+}
 
 .nav-header {
     position: fixed;
@@ -82,14 +87,18 @@ body {
     background-size: cover;
 }
 
+.game-space {
+    height: 100vh;
+}
 
 .enemy{
     width: 50vw;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
 }
 
 .pixelcat {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
 }
