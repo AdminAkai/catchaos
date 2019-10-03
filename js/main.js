@@ -41,10 +41,19 @@ function spawnEnemy() {
     enemyElement.className = 'pixelcat' 
     enemyElement.addEventListener('click', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
-    var xy = getRandomPosition(enemyElement)
-    enemyElement.style.top = xy[0] + 'px'
-    enemyElement.style.left = xy[1] + 'px'
+    // var xy = getRandomPosition(enemyElement)
+    // enemyElement.style.top = xy[0] + 'px'
+    // enemyElement.style.left = xy[1] + 'px'
   }
+  let enemyAnim = anime({
+    targets: document.querySelectorAll('.pixelcat'),
+    scale: {
+      value: 2,
+      duration: 1600,
+      delay: 800,
+      easing: 'easeInOutQuart'
+    }, // All properties except 'scale' inherit 250ms delay
+  });
   game.enemyCount++
   game.timer -= 50
   console.log(game.timer)
@@ -69,22 +78,8 @@ function clickEnemy () {
   console.log(game.points)
 }
 
-while (game.gameRun === true) {
+// while (game.gameRun === true) {
  let enemySpawn = setInterval(spawnEnemy, game.timer)
-}
+// }
 
-// let enemyAnim = anime({
-//   targets: document.querySelectorAll('.pixelcat'),
-//   translateX: {
-//     value: 250,
-//     duration: 800,
-//     direction: 'alternate'
-//   },
-//   rotate: {
-//     value: 360,
-//     duration: 1800,
-//     easing: 'easeInOutSine',
-//     direction: 'alternate'
-//   },
-//   delay: 250 // All properties except 'scale' inherit 250ms delay
-// });
+
