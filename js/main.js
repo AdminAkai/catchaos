@@ -38,16 +38,15 @@ function spawnEnemy() {
     } 
     let enemyElement = document.createElement('img')
     enemyElement.src = 'assets/pixelcat.png'
+    var xy = getRandomPosition(enemyElement)
+    enemyElement.style.top = xy[0] + 'px'
+    enemyElement.style.left = xy[1] + 'px'
     enemyElement.className = 'pixelcat' 
     enemyElement.addEventListener('click', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
-    // var xy = getRandomPosition(enemyElement)
-    // enemyElement.style.top = xy[0] + 'px'
-    // enemyElement.style.left = xy[1] + 'px'
   }
   let enemyAnim = anime({
     targets: document.querySelectorAll('.pixelcat'),
-    opacity: [1, 0],
     direction: 'alternate',
     scale: {
       value: 2,
@@ -87,7 +86,7 @@ function clickEnemy () {
 }
 
 // while (game.gameRun === true) {
- let enemySpawn = setInterval(spawnEnemy, game.timer)
+//  let enemySpawn = setInterval(spawnEnemy, game.timer)
 // }
 
 
