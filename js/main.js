@@ -7,6 +7,10 @@ var game = {
   enemyCount: 0
 }
 
+function gameStart () {
+  
+}
+
 function getRandomPosition(element) {
 	var x = document.body.offsetHeight-element.clientHeight;
 	var y = document.body.offsetWidth-element.clientWidth;
@@ -65,9 +69,9 @@ function clickEnemy () {
   console.log(game.points)
 }
 
-// while (game.gameRun === true) {
-let enemySpawn = setInterval(spawnEnemy, game.timer)
-// }
+while (game.gameRun === true) {
+ let enemySpawn = setInterval(spawnEnemy, game.timer)
+}
 
 // let enemyAnim = anime({
 //   targets: document.querySelectorAll('.pixelcat'),
