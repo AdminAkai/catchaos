@@ -22,8 +22,12 @@ html {
     }
 }
 
+body {
+    height: 100%;
+    background-size: cover;
+}
+
 .nav-header {
-    position: fixed;
     top: 0;
     transition: top 0.3s;
     display: flex;
@@ -81,14 +85,9 @@ html {
     padding: 50px;
 }
 
-body {
-    height: 100%;
-    padding-top: 100px;
-    background-size: cover;
-}
 
 .game-space {
-    height: 100vh;
+    height: 70%;
 }
 
 .enemy{
@@ -99,6 +98,12 @@ body {
 }
 
 .pixelcat {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
+}
+
+.data-interface {
+    display: block;
+    width: 100vw;
+    height: 30%;
 }

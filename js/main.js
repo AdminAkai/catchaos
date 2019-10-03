@@ -47,12 +47,20 @@ function spawnEnemy() {
   }
   let enemyAnim = anime({
     targets: document.querySelectorAll('.pixelcat'),
+    opacity: [1, 0],
+    direction: 'alternate',
     scale: {
       value: 2,
-      duration: 1600,
+      duration: 800,
       delay: 0,
-      easing: 'easeOutQuad'
+      easing: 'easeOutQuad',
     }, // All properties except 'scale' inherit 250ms delay
+    rotate: {
+      value: 360,
+      duration: 800,
+      easing: 'easeOutQuad',
+
+    },
   });
   game.enemyCount++
   game.timer -= 50
