@@ -91,4 +91,4 @@ function clickEnemy () {
   console.log(game.points)
 }
 
-gameMain()
+// gameMain()
