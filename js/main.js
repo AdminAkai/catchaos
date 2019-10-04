@@ -8,25 +8,25 @@ var game = {
   totalEnemies: 0,
 }
 
-// function gameMain () {
-//   gameStart()
-//   while (game.gameRun === true) {
-//     let enemySpawn = setInterval(spawnEnemy, game.timer)
-//     enemySpawn
-//   }
-// }
+function gameMain () {
+  gameStart()
+  while (game.gameRun === true) {
+    let enemySpawn = setInterval(spawnEnemy, game.timer)
+    enemySpawn
+  }
+}
 
-// function gameStart () {
-//   let startGame = document.getElementById("game-start")
-//   startGame.addEventListener('click', clickGameStart)
-// } 
+function gameStart () {
+  let startGame = document.getElementById("game-start")
+  startGame.addEventListener('click', clickGameStart)
+} 
 
-// function clickGameStart () {
-//   event.preventDefault()
-//   this.parentNode.removeChild(this)
-//   game.gameRun = true;
-//   console.log(game.gameRun)
-// }
+function clickGameStart () {
+  event.preventDefault()
+  this.parentNode.removeChild(this)
+  game.gameRun = true;
+  console.log(game.gameRun)
+}
 
 function gameOver () {
     if (game.totalEnemies >= 10) {
@@ -104,9 +104,4 @@ function clickEnemy () {
   this.parentNode.removeChild(this)
 }
 
-// gameMain()
-
-let enemySpawn = setInterval(spawnEnemy, game.timer)
-
-
-// spawnEnemy()
+gameMain()
