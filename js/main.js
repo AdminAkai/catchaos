@@ -6,30 +6,41 @@ var game = {
   spawnrate: 1,
   enemyCount: 0,
   totalEnemies: 0,
+  lives: 3,
 }
 
 function gameMain () {
   gameStart()
-  while (game.gameRun === true) {
-    let enemySpawn = setInterval(spawnEnemy, game.timer)
-  }
+  gameOver()
+
 }
 
 function gameStart () {
-  let startGame = document.getElementById("game-start")
+  let startGame = document.getElementById("game-start-button")
   startGame.addEventListener('click', clickGameStart)
+  while (game.gameRun === true) {
+    let enemySpawn = setInterval(spawnEnemy, game.timer)
+  }
 } 
 
 function clickGameStart () {
   event.preventDefault()
-  this.parentNode.removeChild(this)
+  spawnHeart()
   game.gameRun = true;
+  this.parentNode.remove()
 }
 
 function gameOver () {
+    let getState = document.getElementById("game-start-button")
+    let getLives = document.querySelector("#lives")
     if (game.totalEnemies >= 10) {
+        game.lives -= 1
+        getLives.removeChild(getLives.childNodes[0])
+    }
+    if (game.lives === 0) {
+        getLives.remove()
+        startGame.addEventListener('click', clickGameStart)
         game.gameRun = false
-        console.log('Game over')
     }
 }
 
@@ -47,13 +58,18 @@ function getRandomPosition(element) {
 }
 
 function spawnHeart () {
-  let enemyElement = document.createElement('img')
-  enemyElement.src = 'assets/heart.png'
-  enemyElement.style.top = xy[0] + 'px'
-  enemyElement.style.left = xy[1] + 'px'
-  enemyElement.style.right = xy[1] + 'px'
-  enemyElement.style.bottom = xy[0] + 'px'
-  enemyElement.className = 'pixelcat' 
+    let parentNode = document.querySelector(".game-space")
+    let heartBox = document.createElement('div')
+    heartBox.id = 'lives'
+    parentNode.insertBefore(heartBox, parentNode.childNodes[0])
+    let innerHeartBox = document.querySelector("#lives")
+    for (let i = 0; i < 3; i++) {
+        let heartElement = document.createElement('img')
+        heartElement.src = 'assets/heart.png'
+        heartElement.className = 'heart' 
+        innerHeartBox.appendChild(heartElement)
+    }
+
 }
 
 
