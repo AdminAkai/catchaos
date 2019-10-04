@@ -1,6 +1,7 @@
 * {
     font-family: 'Roboto Mono', monospace;
     margin: 0;
+    user-select: none;
 }
 
 html {
@@ -37,7 +38,7 @@ body {
     font-size: 50px;
 }
 
-#game-start-button {
+.game-start-button {
     font-weight: 600;
 	color: #f35626;
 	background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
@@ -53,19 +54,6 @@ body {
   to {
     -webkit-filter: hue-rotate(-360deg);
   }
-}
-
-@keyframes rainbow {
-    0% {
-        background-position: 0% 50%;
-    }
-    
-    50% {
-        background-position: 100% 25%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
 }
 
 #lives {

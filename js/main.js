@@ -9,29 +9,29 @@ var game = {
   lives: 3,
 }
 
-function gameMain () {
-  gameStart()
-  gameOver()
-
+function gameStart () {
+    console.log(game.gameRun)
+    if (game.gameRun === true) {
+        let enemySpawn = setInterval(spawnEnemy, game.timer)
+        gameOver()
+    }
 }
 
-function gameStart () {
-  let startGame = document.getElementById("game-start-button")
+function gameMain () {
+  let startGame = document.getElementsByClassName("game-start-button")[0]
   startGame.addEventListener('click', clickGameStart)
-  while (game.gameRun === true) {
-    let enemySpawn = setInterval(spawnEnemy, game.timer)
-  }
 } 
 
 function clickGameStart () {
-  event.preventDefault()
   spawnHeart()
-  game.gameRun = true;
+  game.gameRun = true
+  console.log(game.gameRun)
   this.parentNode.remove()
+  gameMain()
 }
 
 function gameOver () {
-    let getState = document.getElementById("game-start-button")
+    let getState = document.getElementsByClassName("game-start-button")[0]
     let getLives = document.querySelector("#lives")
     if (game.totalEnemies >= 10) {
         game.lives -= 1
@@ -125,5 +125,9 @@ function clickEnemy () {
   game.enemyCount -= 1
   this.parentNode.removeChild(this)
 }
+
+
+
+
 
 gameMain()
