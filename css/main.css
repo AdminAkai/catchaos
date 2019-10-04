@@ -55,11 +55,10 @@ body {
 #points {
     position: absolute;
     height: 100%;
-    margin: 50px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: flex-start;
     font-size: 50px;
 }
 
@@ -241,6 +240,10 @@ body {
     position: absolute;
     width: 100px;
     height: 100px;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
 }
 
 .data-interface {
