@@ -100,7 +100,6 @@ body {
 
 
 .game-space {
-    position: absolute;
     height: calc(100% - 100px);
     background: linear-gradient(to left, #ff68d9, #db5858)   
 }
@@ -221,17 +220,6 @@ body {
         transform: translateY(-1400px) rotate(360deg);
         opacity: 0;
     }
-}
-
-
-body .main-content {
-    position: absolute;
-    display: flex;
-    justify-content: center;  
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 100px;
 }
 
 .pixelcat {
