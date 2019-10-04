@@ -7,18 +7,26 @@ var game = {
   enemyCount: 0
 }
 
+function gameMain () {
+  gameStart()
+  while (game.gameRun === true) {
+    let enemySpawn = setInterval(spawnEnemy, game.timer)
+  }
+}
+
 function gameStart () {
   let startGame = document.getElementById("game-start-button")
-  startGame.addEventListener('click', clickGameStart
+  startGame.addEventListener('click', clickGameStart)
 } 
 
 function clickGameStart () {
+  event.preventDefault()
   this.parentNode.removeChild(this)
   game.gameRun = true;
+  console.log(game.gameRun)
 }
 
 function gameOver () {
-
 }
 
 function getRandomPosition(element) {
@@ -83,10 +91,4 @@ function clickEnemy () {
   console.log(game.points)
 }
 
-gameStart()
-
-while (game.gameRun === true) {
-  let enemySpawn = setInterval(spawnEnemy, game.timer)
-}
-
-
+gameMain()

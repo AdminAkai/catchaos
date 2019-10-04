@@ -28,14 +28,18 @@ body {
     background-size: cover;
 }
 
-#game-start-button {
+#game-start {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 75%;
+    font-size: 50px;
 }
+
+
+
 .nav-header {
     top: 0;
     transition: top 0.3s;
