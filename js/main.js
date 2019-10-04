@@ -12,7 +12,6 @@ function gameMain () {
   gameStart()
   while (game.gameRun === true) {
     let enemySpawn = setInterval(spawnEnemy, game.timer)
-    enemySpawn
   }
 }
 
@@ -25,7 +24,6 @@ function clickGameStart () {
   event.preventDefault()
   this.parentNode.removeChild(this)
   game.gameRun = true;
-  console.log(game.gameRun)
 }
 
 function gameOver () {
@@ -96,6 +94,7 @@ function spawnEnemy() {
   });
   game.enemyCount++
   game.timer -= 50
+    }
 }
 
 function clickEnemy () {
