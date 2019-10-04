@@ -232,22 +232,6 @@ body {
 }
 
 
-.enemy{
-    width: 50vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pixelcat {
-    width: 100px;
-    height: 100px;
-}
-
-.data-interface {
-    height: 10%;
-}
-
 body .main-content {
     position: absolute;
     display: flex;
