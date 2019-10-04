@@ -94,4 +94,3 @@ function clickEnemy () {
 
 // gameMain()
 
-let enemySpawn = setInterval(spawnEnemy, game.timer)
