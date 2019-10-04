@@ -27,7 +27,7 @@ function clickGameStart () {
   game.gameRun = true
   console.log(game.gameRun)
   this.parentNode.remove()
-  gameMain()
+  gameStart()
 }
 
 function gameOver () {
