@@ -39,6 +39,14 @@ function gameOver () {
     }
     if (game.lives === 0) {
         getLives.remove()
+        let parentNode = document.querySelector(".game-space")
+        let gameOverBox = document.createElement('div')
+        gameOverBox.id = 'game-over'
+        parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
+        let innerGameOverBox = document.querySelector("#game-over")
+        let highScoreElement = document.createElement('div')
+        highScoreElement.id = "highscore" 
+        gameOverBox.appendChild(heartElement)    
         startGame.addEventListener('click', clickGameStart)
         game.gameRun = false
     }
@@ -69,7 +77,6 @@ function spawnHeart () {
         heartElement.className = 'heart' 
         innerHeartBox.appendChild(heartElement)
     }
-
 }
 
 
