@@ -10,9 +10,9 @@ var game = {
 }
 
 function gameStart () {
-    if (game.gameRun === true) {
-      enemySpawner = setInterval(spawnEnemy, game.timer)
-    }
+  if (game.gameRun === true) {
+    enemySpawner = setInterval(spawnEnemy, game.timer)
+  } 
 }
 
 function gameMain () {
@@ -40,24 +40,17 @@ function gameOver () {
       if (numberOfLives.length > 0) {
         getLives.removeChild(getLives.childNodes[0])      
       }
-      // try {
-      //   getLives.removeChild(getLives.childNodes[0])
-      // } 
-      // catch {
-      //   console.log('Error')
-      // }
-      // finally {
         if (game.lives === 0) {
           console.log('Checked for 0 lives')
           console.log('About to clear interval')
           clearInterval(enemySpawner)
           game.gameRun = false
           console.log(game.gameRun)
-          let enemyList = document.getElementsByClassName('pixelcat')
+          let enemyList = document.querySelectorAll('img')
           console.log(enemyList)
           for (let i = 0; i < enemyList.length; i++) {
             enemyList[i].remove()
-          // }
+          } 
           game.totalEnemies = 0
           let parentNode = document.querySelector(".game-space")
           console.log('still running through function')
@@ -72,7 +65,6 @@ function gameOver () {
         }
       }
     }
-  }
 }
 
 function getRandomPosition(element) {
@@ -102,7 +94,7 @@ function spawnHeart () {
 
 
 function spawnEnemy() {
-   for (let i = 0; i < game.spawnrate; i++) {
+  for (let i = 0; i < game.spawnrate; i++) {
     game.totalEnemies += 1
     console.log(`there are ${game.totalEnemies}`)
     if (game.enemyCount == game.spawnrate + 2 && game.spawnrate < 8) {
@@ -118,12 +110,9 @@ function spawnEnemy() {
     }
     enemyElement.style.top = xy[0] + 'px'
     enemyElement.style.left = xy[1] + 'px'
-    // enemyElement.style.right = xy[1] + 'px'
-    // enemyElement.style.bottom = xy[0] + 'px'
     enemyElement.className = 'pixelcat' 
     enemyElement.addEventListener('click', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
-  // }
   let enemyAnim = anime({
     targets: document.querySelectorAll('.pixelcat'),
     scale: {
