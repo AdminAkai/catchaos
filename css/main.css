@@ -39,6 +39,11 @@ body {
     font-size: 50px;
 }
 
+.score {
+    font-weight: 600;
+	color: #221f1f
+}
+
 .title {
     font-weight: 600;
 	color: #f35626;

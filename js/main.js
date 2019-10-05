@@ -115,7 +115,7 @@ function spawnPoints () {
   let parentNode = document.querySelector(".game-space")
   let pointBox = document.createElement('div')
   pointBox.id = 'points'
-  pointBox.className = 'title'
+  pointBox.className = 'score'
   pointBox.style.fontSize = '50px'
   parentNode.insertBefore(pointBox, parentNode.childNodes[0])
   let innerPointBox = document.querySelector("#points")
@@ -165,7 +165,7 @@ function clickEnemy () {
   game.points += 1
   game.totalEnemies -= 1
   let pointsUpdate = document.querySelector("#points")
-  pointsUpdate.innerHTML = `${game.points} Cat Destructions`
+  pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
   this.removeEventListener('click', clickEnemy)
   this.src = 'assets/spaceexplosion.gif'
   setTimeout(() => {
