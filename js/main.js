@@ -11,7 +11,7 @@ var game = {
 
 function gameStart () {
     if (game.gameRun === true) {
-      setInterval(spawnEnemy, game.timer)
+      enemySpawner = setInterval(spawnEnemy, game.timer)
     }
 }
 
@@ -28,25 +28,44 @@ function clickGameStart () {
 }
 
 function gameOver () {
-    // let getState = document.getElementsByClassName("game-start-button")[0]
+  // let getState = document.getElementsByClassName("game-start-button")[0]
+  console.log('Checking if game lives greater than 0')
+  if (game.lives >= 0) {
+    console.log('Creating interval')
     let getLives = document.querySelector("#lives")
     if (game.totalEnemies >= 10) {
-        game.lives -= 1
+      game.lives -= 1
+      console.log(game.lives)
+      // let numberOfLives = getLives.children
+      // if (numberOfLives.length === 0) {
+
+      // }
+      try {
         getLives.removeChild(getLives.childNodes[0])
+      } 
+      catch {
+        console.log('Error')
+      }
+      finally {
+        if (game.lives < 0) {
+          console.log('Checked for 0 lives')
+          console.log('About to clear interval')
+          clearInterval(enemySpawner)
+          game.gameRun = false
+          console.log(game.gameRun)
+          let parentNode = document.querySelector(".game-space")
+          let gameOverBox = document.createElement('div')
+          gameOverBox.id = 'game-over'
+          parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
+          let innerGameOverBox = document.querySelector("#game-over")
+          let highScoreElement = document.createElement('div')
+          highScoreElement.id = "highscore" 
+          innerGameOverBox.appendChild(highScoreElement)    
+          // startGame.addEventListener('click', clickGameStart)
+        }
+      }
     }
-    if (game.lives === 0) {
-        getLives.remove()
-        let parentNode = document.querySelector(".game-space")
-        let gameOverBox = document.createElement('div')
-        gameOverBox.id = 'game-over'
-        parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
-        let innerGameOverBox = document.querySelector("#game-over")
-        let highScoreElement = document.createElement('div')
-        highScoreElement.id = "highscore" 
-        innerGameOverBox.appendChild(highScoreElement)    
-        // startGame.addEventListener('click', clickGameStart)
-        game.gameRun = false
-    }
+  }
 }
 
 function getRandomPosition(element) {
@@ -77,11 +96,11 @@ function spawnHeart () {
 
 function spawnEnemy() {
    for (let i = 0; i < game.spawnrate; i++) {
-     game.totalEnemies += 1
-     console.log(game.totalEnemies)
-     if (game.enemyCount === game.spawnrate + 2 && game.spawnrate < 8) {
-       game.spawnrate += 1
-       game.enemyCount = 0
+    game.totalEnemies += 1
+    console.log(game.totalEnemies)
+    if (game.enemyCount === game.spawnrate + 2 && game.spawnrate < 8) {
+      game.spawnrate += 1
+      game.enemyCount = 0
     } 
     let enemyElement = document.createElement('img')
     enemyElement.src = 'assets/pixelcat.png'
@@ -110,6 +129,7 @@ function spawnEnemy() {
       duration: 1600,
       easing: 'easeOutQuad',  
     },
+    
   })
   game.enemyCount++
   game.timer -= 50
