@@ -10,10 +10,8 @@ var game = {
 }
 
 function gameStart () {
-    console.log(game.gameRun)
     if (game.gameRun === true) {
-        let enemySpawn = setInterval(spawnEnemy, game.timer)
-        gameOver()
+      setInterval(spawnEnemy, game.timer)
     }
 }
 
@@ -25,13 +23,12 @@ function gameMain () {
 function clickGameStart () {
   spawnHeart()
   game.gameRun = true
-  console.log(game.gameRun)
   this.parentNode.remove()
   gameStart()
 }
 
 function gameOver () {
-    let getState = document.getElementsByClassName("game-start-button")[0]
+    // let getState = document.getElementsByClassName("game-start-button")[0]
     let getLives = document.querySelector("#lives")
     if (game.totalEnemies >= 10) {
         game.lives -= 1
@@ -46,8 +43,8 @@ function gameOver () {
         let innerGameOverBox = document.querySelector("#game-over")
         let highScoreElement = document.createElement('div')
         highScoreElement.id = "highscore" 
-        gameOverBox.appendChild(heartElement)    
-        startGame.addEventListener('click', clickGameStart)
+        innerGameOverBox.appendChild(highScoreElement)    
+        // startGame.addEventListener('click', clickGameStart)
         game.gameRun = false
     }
 }
@@ -55,9 +52,7 @@ function gameOver () {
 function getRandomPosition(element) {
   let parentElement = document.getElementsByClassName("game-space")[0]
   var x = parentElement.offsetHeight-element.clientHeight;
-  console.log(x)
   var y = parentElement.offsetWidth-element.clientWidth;
-  console.log(y)
   do {
     var randomX = Math.floor(Math.random()*x)
     var randomY = Math.floor(Math.random()*y)
@@ -83,6 +78,7 @@ function spawnHeart () {
 function spawnEnemy() {
    for (let i = 0; i < game.spawnrate; i++) {
      game.totalEnemies += 1
+     console.log(game.totalEnemies)
      if (game.enemyCount === game.spawnrate + 2 && game.spawnrate < 8) {
        game.spawnrate += 1
        game.enemyCount = 0
@@ -114,15 +110,17 @@ function spawnEnemy() {
       duration: 1600,
       easing: 'easeOutQuad',  
     },
-  });
+  })
   game.enemyCount++
   game.timer -= 50
-    }
+  }
+  gameOver()
 }
 
 function clickEnemy () {
   game.points += 10
-  game.enemyCount -= 1
+  game.totalEnemies -= 1
+  console.log(game.totalEnemies)
   this.parentNode.removeChild(this)
 }
 
