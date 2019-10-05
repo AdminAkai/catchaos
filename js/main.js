@@ -36,24 +36,31 @@ function gameOver () {
     if (game.totalEnemies >= 10) {
       game.lives -= 1
       console.log(game.lives)
-      // let numberOfLives = getLives.children
-      // if (numberOfLives.length === 0) {
-
-      // }
-      try {
-        getLives.removeChild(getLives.childNodes[0])
-      } 
-      catch {
-        console.log('Error')
+      let numberOfLives = getLives.children
+      if (numberOfLives.length > 0) {
+        getLives.removeChild(getLives.childNodes[0])      
       }
-      finally {
-        if (game.lives < 0) {
+      // try {
+      //   getLives.removeChild(getLives.childNodes[0])
+      // } 
+      // catch {
+      //   console.log('Error')
+      // }
+      // finally {
+        if (game.lives === 0) {
           console.log('Checked for 0 lives')
           console.log('About to clear interval')
           clearInterval(enemySpawner)
           game.gameRun = false
           console.log(game.gameRun)
+          let enemyList = document.getElementsByClassName('pixelcat')
+          console.log(enemyList)
+          for (let i = 0; i < enemyList.length; i++) {
+            enemyList[i].remove()
+          // }
+          game.totalEnemies = 0
           let parentNode = document.querySelector(".game-space")
+          console.log('still running through function')
           let gameOverBox = document.createElement('div')
           gameOverBox.id = 'game-over'
           parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
@@ -97,9 +104,10 @@ function spawnHeart () {
 function spawnEnemy() {
    for (let i = 0; i < game.spawnrate; i++) {
     game.totalEnemies += 1
-    console.log(game.totalEnemies)
-    if (game.enemyCount === game.spawnrate + 2 && game.spawnrate < 8) {
+    console.log(`there are ${game.totalEnemies}`)
+    if (game.enemyCount == game.spawnrate + 2 && game.spawnrate < 8) {
       game.spawnrate += 1
+      console.log(`there are ${game.spawnrate} enemies spawning`)
       game.enemyCount = 0
     } 
     let enemyElement = document.createElement('img')
@@ -133,7 +141,7 @@ function spawnEnemy() {
   })
   game.enemyCount++
   game.timer -= 50
-  }
+    }
   gameOver()
 }
 
