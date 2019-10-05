@@ -21,6 +21,7 @@ function gameMain () {
 } 
 
 function clickGameStart () {
+  spawnPoints()
   spawnHeart()
   game.gameRun = true
   document.getElementById('game-start').remove()
@@ -28,34 +29,31 @@ function clickGameStart () {
 }
 
 function gameOver () {
-  // let getState = document.getElementsByClassName("game-start-button")[0]
-  console.log('Checking if game lives greater than 0')
   if (game.lives >= 0) {
-    console.log('Creating interval')
     let getLives = document.querySelector("#lives")
     if (game.totalEnemies >= 10) {
       game.lives -= 1
-      console.log(game.lives)
       let numberOfLives = getLives.children
       if (numberOfLives.length > 0) {
         getLives.removeChild(getLives.childNodes[0])      
       }
         if (game.lives === 0) {
-          console.log('Checked for 0 lives')
-          console.log('About to clear interval')
           clearInterval(enemySpawner)
           game.gameRun = false
-          console.log(game.gameRun)
           let enemyList = document.querySelectorAll('img')
-          console.log(enemyList)
           for (let i = 0; i < enemyList.length; i++) {
             enemyList[i].remove()
           } 
+          let removePoints = document.getElementById("points")
+          removePoints.remove()
           game.totalEnemies = 0
           let parentNode = document.querySelector(".game-space")
-          console.log('still running through function')
           let gameOverBox = document.createElement('div')
-          gameOverBox.id = 'game-over'
+          let gameOver = document.createElement('h1')
+          let highScore = document.createElement('h4')
+          let currentPoints = document.createElement('h4')
+          let restartGame = document.createElement('h3')
+          gameOverBox.id = 'game-start'
           parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
           let innerGameOverBox = document.querySelector("#game-over")
           let highScoreElement = document.createElement('div')
@@ -92,14 +90,22 @@ function spawnHeart () {
     }
 }
 
+function spawnPoints () {
+  let parentNode = document.querySelector(".game-space")
+  let pointBox = document.createElement('div')
+  pointBox.id = 'points'
+  pointBox.className = 'title'
+  pointBox.style.fontSize = '50px'
+  parentNode.insertBefore(pointBox, parentNode.childNodes[0])
+  let innerPointBox = document.querySelector("#points")
+  innerPointBox.innerHTML = `${game.points} Cat Destructions`
+}
 
 function spawnEnemy() {
   for (let i = 0; i < game.spawnrate; i++) {
     game.totalEnemies += 1
-    console.log(`there are ${game.totalEnemies}`)
     if (game.enemyCount == game.spawnrate + 2 && game.spawnrate < 8) {
       game.spawnrate += 1
-      console.log(`there are ${game.spawnrate} enemies spawning`)
       game.enemyCount = 0
     } 
     let enemyElement = document.createElement('img')
@@ -135,11 +141,15 @@ function spawnEnemy() {
 }
 
 function clickEnemy () {
-  game.kills += 1
+  game.points += 1
   game.totalEnemies -= 1
+  let pointsUpdate = document.querySelector("#points")
+  pointsUpdate.innerHTML = `${game.points} Cat Destructions`
+  this.removeEventListener('click', clickEnemy)
   this.src = 'assets/spaceexplosion.gif'
-  setTimeout(() => { this.parentNode.removeChild(this) }, 1000);
-  console.log(game.totalEnemies)
+  setTimeout(() => {
+    this.parentNode.removeChild(this) 
+  }, 1000);
 }
 
 
