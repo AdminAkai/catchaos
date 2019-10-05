@@ -38,6 +38,10 @@ function gameOver () {
         getLives.removeChild(getLives.childNodes[0])      
       }
         if (game.lives === 0) {
+          game.spawnrate = 1
+          game.enemyCount = 0
+          game.timer = 3000
+          game.lives = 3
           clearInterval(enemySpawner)
           game.gameRun = false
           let enemyList = document.querySelectorAll('img')
@@ -49,17 +53,30 @@ function gameOver () {
           game.totalEnemies = 0
           let parentNode = document.querySelector(".game-space")
           let gameOverBox = document.createElement('div')
-          let gameOver = document.createElement('h1')
-          let highScore = document.createElement('h4')
-          let currentPoints = document.createElement('h4')
-          let restartGame = document.createElement('h3')
           gameOverBox.id = 'game-start'
+          let gameOver = document.createElement('h1')
+          gameOver.className = 'title'
+          gameOver.innerHTML = 'GAME OVER'
+          if (game.points > game.highScore) {
+            game.highScore = game.points
+          }
+          let highScore = document.createElement('h4')
+          highScore.className = 'title'
+          highScore.innerHTML = `BEST SCORE: ${game.highScore} CAT DESTRUCTIONS`
+          let currentPoints = document.createElement('h4')
+          currentPoints.className = 'title'
+          currentPoints.innerHTML = `YOUR SCORE: ${game.points} CAT DESTRUCTIONS`
+          game.points = 0
+          let restartGame = document.createElement('h3')
+          restartGame.className = 'game-start-button'
+          restartGame.innerHTML = 'RESTART'
           parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
-          let innerGameOverBox = document.querySelector("#game-over")
-          let highScoreElement = document.createElement('div')
-          highScoreElement.id = "highscore" 
-          innerGameOverBox.appendChild(highScoreElement)    
-          // startGame.addEventListener('click', clickGameStart)
+          let parentGameOver = document.querySelector('#game-start')
+          parentGameOver.appendChild(gameOver)
+          parentGameOver.appendChild(highScore)
+          parentGameOver.appendChild(currentPoints)
+          parentGameOver.appendChild(restartGame)
+          gameMain()
         }
       }
     }
@@ -98,7 +115,7 @@ function spawnPoints () {
   pointBox.style.fontSize = '50px'
   parentNode.insertBefore(pointBox, parentNode.childNodes[0])
   let innerPointBox = document.querySelector("#points")
-  innerPointBox.innerHTML = `${game.points} Cat Destructions`
+  innerPointBox.innerHTML = `${game.points} CAT DESTRUCTIONS`
 }
 
 function spawnEnemy() {
