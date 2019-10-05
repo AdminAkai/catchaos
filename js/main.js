@@ -23,6 +23,8 @@ function gameMain () {
 function clickGameStart () {
   spawnPoints()
   spawnHeart()
+  let logoClick = document.querySelector('.logo a')
+  logoClick.href = '#'
   game.gameRun = true
   document.getElementById('game-start').remove()
   gameStart()
@@ -76,6 +78,8 @@ function gameOver () {
           parentGameOver.appendChild(highScore)
           parentGameOver.appendChild(currentPoints)
           parentGameOver.appendChild(restartGame)
+          let logoClickGameOver = document.querySelector('.logo a')
+          logoClickGameOver.href = '../../index.html'
           gameMain()
         }
       }
@@ -168,9 +172,5 @@ function clickEnemy () {
     this.parentNode.removeChild(this) 
   }, 1000);
 }
-
-
-
-
 
 gameMain()
