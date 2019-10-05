@@ -39,6 +39,15 @@ body {
     font-size: 50px;
 }
 
+.title {
+    font-weight: 600;
+	color: #f35626;
+	background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: hue 10s infinite linear;
+}
+
 .game-start-button {
     font-weight: 600;
 	color: #f35626;

@@ -23,7 +23,7 @@ function gameMain () {
 function clickGameStart () {
   spawnHeart()
   game.gameRun = true
-  this.parentNode.remove()
+  document.getElementById('game-start').remove()
   gameStart()
 }
 
@@ -135,10 +135,11 @@ function spawnEnemy() {
 }
 
 function clickEnemy () {
-  game.points += 10
+  game.kills += 1
   game.totalEnemies -= 1
+  this.src = 'assets/spaceexplosion.gif'
+  setTimeout(() => { this.parentNode.removeChild(this) }, 1000);
   console.log(game.totalEnemies)
-  this.parentNode.removeChild(this)
 }
 
 
