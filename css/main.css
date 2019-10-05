@@ -191,7 +191,8 @@ body {
 
 .game-space {
     height: calc(100% - 100px);
-    background: linear-gradient(to left, #f163ce, #ec6565)   
+    background: linear-gradient(to left, #f163ce, #ec6565);
+ 
 }
 
 .box-area {

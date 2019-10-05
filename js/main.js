@@ -21,6 +21,8 @@ function gameMain () {
 } 
 
 function clickGameStart () {
+  let gameBackground = document.getElementsByClassName('game-space')[0]
+  gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   spawnPoints()
   spawnHeart()
   let logoClick = document.querySelector('.logo a')
@@ -31,15 +33,24 @@ function clickGameStart () {
 }
 
 function gameOver () {
+  let gameBackground = document.getElementsByClassName('game-space')[0]
   if (game.lives >= 0) {
     let getLives = document.querySelector("#lives")
     if (game.totalEnemies >= 10) {
       game.lives -= 1
       let numberOfLives = getLives.children
       if (numberOfLives.length > 0) {
-        getLives.removeChild(getLives.childNodes[0])      
+        getLives.removeChild(getLives.childNodes[0])  
+        if (numberOfLives.length === 2) {
+          gameBackground.style.background = 'linear-gradient(to left, #b861a2, #aa3535)'
+        }    
+        if (numberOfLives.length === 1) {
+          gameBackground.style.background = 'linear-gradient(to left, #c4b6b6, #554952)'
+
+        }
       }
         if (game.lives === 0) {
+          gameBackground.style.background = 'black'
           game.spawnrate = 1
           game.enemyCount = 0
           game.timer = 3000
@@ -125,7 +136,7 @@ function spawnPoints () {
 function spawnEnemy() {
   for (let i = 0; i < game.spawnrate; i++) {
     game.totalEnemies += 1
-    if (game.enemyCount == game.spawnrate + 2 && game.spawnrate < 8) {
+    if (game.enemyCount == game.spawnrate + 1 && game.spawnrate < 5) {
       game.spawnrate += 1
       game.enemyCount = 0
     } 
