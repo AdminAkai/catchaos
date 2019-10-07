@@ -55,6 +55,15 @@ body {
 	-webkit-animation: hue 10s infinite linear;
 }
 
+.color-text {
+    font-weight: 600;
+	color: #f35626;
+	background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: hue 10s infinite linear;
+}
+
 .game-start-button {
     margin-top: 20px;
     font-weight: 600;

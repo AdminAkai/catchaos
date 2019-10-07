@@ -162,15 +162,16 @@ function gameOver () {
             game.highScore = game.points
           }
           let highScore = document.createElement('h4')
-          highScore.className = 'title'
+          highScore.className = 'color-text'
           highScore.innerHTML = `BEST SCORE: ${game.highScore} CAT DESTRUCTIONS`
           let currentPoints = document.createElement('h4')
-          currentPoints.className = 'title'
+          currentPoints.className = 'color-text'
           currentPoints.innerHTML = `YOUR SCORE: ${game.points} CAT DESTRUCTIONS`
           game.points = 0
           let restartGame = document.createElement('h3')
-          restartGame.className = 'game-start-button'
-          restartGame.innerHTML = 'RESTART'
+          restartGame.className = 'return-button'
+          restartGame.innerHTML = 'RETURN TO MAIN MENU'
+          restartGame.addEventListener('click', returnToTitle)
           parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
           let parentGameOver = document.querySelector('#game-start')
           parentGameOver.appendChild(gameOver)
@@ -179,7 +180,6 @@ function gameOver () {
           parentGameOver.appendChild(restartGame)
           let logoClickGameOver = document.querySelector('.logo a')
           logoClickGameOver.href = '../../index.html'
-          gameMain()
         }
       }
     }
@@ -220,6 +220,7 @@ function spawnPoints () {
 }
 
 function spawnEnemy() {
+  game.timer -= 50
   game.waveCount += 1
   console.log(`Wave ${game.waveCount}`)
   if (game.waveCount === 4) {
@@ -268,7 +269,6 @@ function spawnEnemy() {
     
   })
   game.enemyCount++
-  game.timer -= 50
     }
   gameOver()
 }
