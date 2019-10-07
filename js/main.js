@@ -2,7 +2,7 @@ var game = {
   gameRun: false,
   points: 0,
   highScore: 0,
-  timer: 3000, //in milliseconds
+  timer: 3000, // in milliseconds
   spawnrate: 1,
   enemyCount: 0,
   totalEnemies: 0,
@@ -41,6 +41,32 @@ function gameMain () {
   })
 } 
 
+function returnFromInstructions () {
+  let titleMain = document.getElementsByClassName('game-space')[0]
+  titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
+  let currentSpace = document.getElementById('instructionBox')
+  currentSpace.remove()
+  let parentNode = document.querySelector(".game-space")
+  let titleBox = document.createElement('div')
+  titleBox.id = 'game-start'
+  parentNode.insertBefore(titleBox, parentNode.childNodes[0])
+  let innerTitleBox = document.querySelector("#game-start")
+  let titleText = document.createElement('h1')
+  titleText.className = 'title'
+  titleText.innerHTML = 'CAT CHAOS'
+  let instructionsText = document.createElement('h3')
+  instructionsText.className = 'instructions-button'
+  instructionsText.innerHTML = 'INSTRUCTIONS'
+  let gameStartText = document.createElement('h3')
+  gameStartText.className = 'game-start-button'
+  gameStartText.innerHTML = 'GAME START'
+  innerTitleBox.appendChild(titleText)
+  innerTitleBox.appendChild(instructionsText)
+  innerTitleBox.appendChild(gameStartText)
+  this.remove()
+  gameMain()
+}
+
 function returnToTitle () {
   game.spawnrate = 1
   game.enemyCount = 0
@@ -48,11 +74,8 @@ function returnToTitle () {
   game.timer = 3000
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
-  let titleChild = titleMain.lastElementChild
-  while (titleChild) {
-    titleMain.removeChild(titleChild)
-    titleChild = titleMain.lastElementChild
-  }
+  let currentSpace = document.getElementById('game-start')
+  currentSpace.remove()
   let parentNode = document.querySelector(".game-space")
   let titleBox = document.createElement('div')
   titleBox.id = 'game-start'
@@ -77,11 +100,7 @@ function clickInstructions () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let gameDiv = document.getElementById('game-start')
-  let gameChild = gameDiv.lastElementChild
-  while (gameChild) {
-    gameDiv.removeChild(gameChild)
-    gameChild = gameDiv.lastElementChild
-  }
+  gameDiv.remove()
   let parentNode = document.querySelector(".game-space")
   let instructionBox = document.createElement('div')
   instructionBox.id = 'instructionBox'
@@ -94,7 +113,7 @@ function clickInstructions () {
   let returnButton = document.createElement('h3')
   returnButton.className = "return-button"
   returnButton.innerHTML = "RETURN"
-  returnButton.addEventListener('click', returnToTitle)
+  returnButton.addEventListener('click', returnFromInstructions)
   returnButton.addEventListener('mouseover', function() {
     let returnButtonColor = document.getElementsByClassName('return-button')[0]
     returnButtonColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #0400da, #0051ff)'

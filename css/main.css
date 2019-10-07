@@ -92,8 +92,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-align: center;
+    text-align: justify;
     height: 80%;
-    width: 100%;
+    width: 70vw;
     font-size: 50px;
     font-weight: 600;
 	color: #f35626;
@@ -295,8 +297,13 @@ body {
 
 
 .game-space {
+    position: relative;
     height: calc(100% - 100px);
     background: linear-gradient(to left, #f163ce, #ec6565);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
  
 }
 
