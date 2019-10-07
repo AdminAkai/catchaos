@@ -41,6 +41,10 @@ function gameMain () {
 } 
 
 function returnToTitle () {
+  game.spawnrate = 1
+  game.enemyCount = 0
+  game.waveCount = 0
+  game.timer = 3000
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let titleChild = titleMain.lastElementChild
