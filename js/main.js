@@ -10,6 +10,8 @@ var game = {
   waveCount: 0,
 }
 
+var audio = document.querySelector('#my_audio')
+
 function gameStart () {
   if (game.gameRun === true) {
     enemySpawner = setInterval(spawnEnemy, game.timer)
@@ -22,13 +24,11 @@ function gameMain () {
 } 
 
 function clickGameStart () {
-  var audio = document.querySelector('#my_audio')
-  console.log(audio)
-  audio.volume = 0.5
   if (audio.paused) {
+    audio.volume = 0.1
     audio.play()
   } else {
-    audio.currentTime = 0
+     audio.currentTime = 0
   }
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
@@ -110,10 +110,8 @@ function getRandomPosition(element) {
   let parentElement = document.getElementsByClassName("game-space")[0]
   var x = parentElement.offsetHeight-element.clientHeight;
   var y = parentElement.offsetWidth-element.clientWidth;
-  do {
-    var randomX = Math.floor(Math.random()*x)
-    var randomY = Math.floor(Math.random()*y)
-  } while (randomX <= 300 && randomX >= 900 && randomY <= 200 && randomY >= 500)
+  var randomX = Math.floor(Math.random()*(x - 100))
+  var randomY = Math.floor(Math.random()*(y - 100))
   return [randomX,randomY];
 }
 
@@ -160,20 +158,18 @@ function spawnEnemy() {
   }
   for (let i = 0; i < game.spawnrate; i++) {
     game.totalEnemies += 1
-    console.log(`There are ${game.totalEnemies} enemies`)
-    // game.totalEnemies += 1
-    // if (game.enemyCount == game.spawnrate + 2 && game.spawnrate < 8) {
-    //   game.spawnrate += 1
-    //   game.enemyCount = 0
-    // } 
     let enemyElement = document.createElement('img')
     enemyElement.src = 'assets/pixelcat.png'
     var xy = getRandomPosition(enemyElement)
     while (typeof(xy) === 'undefined') {
       xy = getRandomPosition(enemyElement)
     }
-    enemyElement.style.top = xy[0] + 'px'
-    enemyElement.style.left = xy[1] + 'px'
+    let positionX = xy[0]
+    let positionY = xy[1]
+    enemyElement.style.top = `${positionX}px`
+    enemyElement.style.left = `${positionY}px`
+    enemyElement.style.right = `${positionX}px`
+    enemyElement.style.bottom = `${positionY}px`
     enemyElement.className = 'pixelcat' 
     enemyElement.addEventListener('click', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
@@ -201,6 +197,7 @@ function spawnEnemy() {
 function clickEnemy () {
   let audioEnemy = document.getElementById('cat_death')
   audioEnemy.load()
+  audioEnemy.volume = 0.5
   audioEnemy.play()
   game.points += 1
   game.totalEnemies -= 1
