@@ -44,23 +44,29 @@ function returnToTitle () {
   console.log('clicked')
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
-  let gameDiv = document.getElementById('game-start')
-  let gameChild = gameDiv.lastElementChild
-  while (gameChild) {
-    gameDiv.removeChild(gameChild)
-    gameChild = gameDiv.lastElementChild
+  let titleChild = titleMain.lastElementChild
+  while (titleChild) {
+    titleMain.removeChild(titleChild)
+    titleChild = titleMain.lastElementChild
   }
   let parentNode = document.querySelector(".game-space")
   let titleBox = document.createElement('div')
   titleBox.id = 'game-start'
-  parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
+  parentNode.insertBefore(titleBox, parentNode.childNodes[0])
   let innerTitleBox = document.querySelector("#game-start")
   let titleText = document.createElement('h1')
   titleText.className = 'title'
+  titleText.innerHTML = 'CAT CHAOS'
   let instructionsText = document.createElement('h3')
   instructionsText.className = 'instructions-button'
+  instructionsText.innerHTML = 'INSTRUCTIONS'
   let gameStartText = document.createElement('h3')
   gameStartText.className = 'game-start-button'
+  gameStartText.innerHTML = 'GAME START'
+  innerTitleBox.appendChild(titleText)
+  innerTitleBox.appendChild(instructionsText)
+  innerTitleBox.appendChild(gameStartText)
+  gameMain()
 }
 
 function clickInstructions () {
