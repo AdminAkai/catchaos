@@ -172,6 +172,14 @@ function gameOver () {
           restartGame.className = 'return-button'
           restartGame.innerHTML = 'RETURN TO MAIN MENU'
           restartGame.addEventListener('click', returnToTitle)
+          restartGame.addEventListener('mouseover', function() {
+            let restartColor = document.getElementsByClassName('return-button')[0]
+            restartColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #0400da, #0051ff)'
+          })
+          restartGame.addEventListener('mouseout', function(){
+            let restartColor = document.getElementsByClassName('return-button')[0]
+            restartColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #f35626, #feab3a)'
+          })
           parentNode.insertBefore(gameOverBox, parentNode.childNodes[0])
           let parentGameOver = document.querySelector('#game-start')
           parentGameOver.appendChild(gameOver)
@@ -222,19 +230,14 @@ function spawnPoints () {
 function spawnEnemy() {
   game.timer -= 50
   game.waveCount += 1
-  console.log(`Wave ${game.waveCount}`)
   if (game.waveCount === 4) {
     game.spawnrate += 1
-    console.log(`Wave ${game.spawnrate}`)
   } else if (game.waveCount === 8) {
     game.spawnrate += 2
-    console.log(`Wave ${game.spawnrate}`)
   } else if (game.waveCount === 12) {
     game.spawnrate += 2
-    console.log(`Wave ${game.spawnrate}`)
   } else if (game.waveCount === 16) {
     game.spawnrate += 1
-    console.log(`Wave ${game.spawnrate}`)
   }
   for (let i = 0; i < game.spawnrate; i++) {
     game.totalEnemies += 1
