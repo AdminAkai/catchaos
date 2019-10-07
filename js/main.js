@@ -7,8 +7,9 @@ var game = {
   enemyCount: 0,
   totalEnemies: 0,
   lives: 3,
-  waveCount: 0,
+  roundCount: 0,
   audio: document.querySelector('#my_audio'),
+  bombs: 3,
 }
 
 function gameStart () {
@@ -43,7 +44,7 @@ function gameMain () {
 function returnToTitle () {
   game.spawnrate = 1
   game.enemyCount = 0
-  game.waveCount = 0
+  game.roundCount = 0
   game.timer = 3000
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
@@ -86,7 +87,7 @@ function clickInstructions () {
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>HIT SPACEBAR TO USE A BOMB AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS ALSO SLOWS THEIR INVASION FOR A SHORT WHILE!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
@@ -116,7 +117,9 @@ function clickGameStart () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   spawnPoints()
+  spawnBombs()
   spawnHeart()
+  bombUse()
   let logoClick = document.querySelector('.logo a')
   logoClick.href = '#'
   game.gameRun = true
@@ -206,6 +209,49 @@ function getRandomPosition(element) {
   return [randomX,randomY];
 }
 
+function bombUse () {
+  document.addEventListener("keypress", function(event) {
+    if (event.keyCode == 32) {
+      if (game.bombs > 0) {
+        game.timer = 3000
+        game.bombs -= 1
+        let getBombs = document.querySelector("#bombs")
+        let numberOfBombs = getBombs.children
+        if (numberOfBombs.length > 0) {
+          getBombs.removeChild(getBombs.childNodes[0])
+        }
+        let enemyList = document.querySelectorAll('.pixelcat')
+        enemyDeathSound()
+        for (let i = 0; i < enemyList.length; i++) {
+          enemyList[i].removeEventListener('click', clickEnemy)
+          enemyList[i].src = 'assets/spaceexplosion.gif'
+          game.points += 1
+          game.totalEnemies -= 1
+          setTimeout(() => {
+             enemyList[i].remove()
+          }, 1000) 
+        let pointsUpdate = document.querySelector("#points")
+        pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
+        }
+      }
+    }
+  })
+}
+
+function spawnBombs () {
+  let parentNode = document.querySelector(".game-space")
+  let bombBox = document.createElement('div')
+  bombBox.id = 'bombs'
+  parentNode.insertBefore(bombBox, parentNode.childNodes[0])
+  let innerBombBox = document.querySelector("#bombs")
+  for (let i = 0; i < 3; i++) {
+      let bombElement = document.createElement('img')
+      bombElement.src = 'assets/bomb.png'
+      bombElement.className = 'bomb' 
+      innerBombBox.appendChild(bombElement)
+  }
+}
+
 function spawnHeart () {
     let parentNode = document.querySelector(".game-space")
     let heartBox = document.createElement('div')
@@ -233,14 +279,14 @@ function spawnPoints () {
 
 function spawnEnemy() {
   game.timer -= 50
-  game.waveCount += 1
-  if (game.waveCount === 4) {
+  game.roundCount += 1
+  if (game.roundCount === 4) {
     game.spawnrate += 1
-  } else if (game.waveCount === 8) {
+  } else if (game.roundCount === 8) {
     game.spawnrate += 2
-  } else if (game.waveCount === 12) {
+  } else if (game.roundCount === 12) {
     game.spawnrate += 2
-  } else if (game.waveCount === 16) {
+  } else if (game.roundCount === 16) {
     game.spawnrate += 1
   }
   for (let i = 0; i < game.spawnrate; i++) {
