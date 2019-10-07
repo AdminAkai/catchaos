@@ -87,7 +87,7 @@ function clickInstructions () {
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>HIT SPACEBAR TO USE A BOMB AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS ALSO SLOWS THEIR INVASION FOR A SHORT WHILE!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>HIT SPACEBAR TO USE A BOMB AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS ALSO SLOWS THEIR INVASION FOR A SHORT WHILE!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
