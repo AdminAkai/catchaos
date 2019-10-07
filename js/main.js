@@ -41,7 +41,6 @@ function gameMain () {
 } 
 
 function returnToTitle () {
-  console.log('clicked')
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let titleChild = titleMain.lastElementChild
