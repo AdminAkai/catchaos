@@ -281,10 +281,7 @@ function spawnEnemy() {
 }
 
 function clickEnemy () {
-  let audioEnemy = document.getElementById('cat_death')
-  audioEnemy.load()
-  audioEnemy.volume = 0.5
-  audioEnemy.play()
+  enemyDeathSound()
   game.points += 1
   game.totalEnemies -= 1
   let pointsUpdate = document.querySelector("#points")
@@ -294,6 +291,13 @@ function clickEnemy () {
   setTimeout(() => {
     this.remove()
   }, 1000);
+}
+
+function enemyDeathSound () {
+  let audioEnemy = document.getElementById('cat_death')
+  audioEnemy.load()
+  audioEnemy.volume = 0.5
+  audioEnemy.play()
 }
 
 gameMain()
