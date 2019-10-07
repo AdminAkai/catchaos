@@ -41,6 +41,7 @@ function gameMain () {
 } 
 
 function returnToTitle () {
+  console.log('clicked')
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let gameDiv = document.getElementById('game-start')
@@ -50,12 +51,16 @@ function returnToTitle () {
     gameChild = gameDiv.lastElementChild
   }
   let parentNode = document.querySelector(".game-space")
-  let instructionBox = document.createElement('div')
-  instructionBox.id = 'instructionBox'
+  let titleBox = document.createElement('div')
+  titleBox.id = 'game-start'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
-  let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!"
-  innerInstructionBox.innerHTML = `${instructions}`
+  let innerTitleBox = document.querySelector("#game-start")
+  let titleText = document.createElement('h1')
+  titleText.className = 'title'
+  let instructionsText = document.createElement('h3')
+  instructionsText.className = 'instructions-button'
+  let gameStartText = document.createElement('h3')
+  gameStartText.className = 'game-start-button'
 }
 
 function clickInstructions () {
@@ -74,6 +79,22 @@ function clickInstructions () {
   let innerInstructionBox = document.querySelector("#instructionBox")
   let instructions = "CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!"
   innerInstructionBox.innerHTML = `${instructions}`
+  let returnButtonBox = document.createElement('div')
+  returnButtonBox.className = 'return-box'
+  let returnButton = document.createElement('h3')
+  returnButton.className = "return-button"
+  returnButton.innerHTML = "RETURN"
+  returnButton.addEventListener('click', returnToTitle)
+  returnButton.addEventListener('mouseover', function() {
+    let returnButtonColor = document.getElementsByClassName('return-button')[0]
+    returnButtonColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #0400da, #0051ff)'
+  })
+  returnButton.addEventListener('mouseout', function(){
+    let returnButtonColor = document.getElementsByClassName('return-button')[0]
+    returnButtonColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #f35626, #feab3a)'
+  })
+  returnButtonBox.appendChild(returnButton)
+  parentNode.insertBefore(returnButtonBox, parentNode.hasChildNodes[0])
 }
 
 function clickGameStart () {
