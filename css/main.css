@@ -30,6 +30,7 @@ body {
 }
 
 #game-start {
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,6 +46,7 @@ body {
 }
 
 .title {
+    font-size: 120px;
     font-weight: 600;
 	color: #f35626;
 	background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
@@ -54,8 +56,9 @@ body {
 }
 
 .game-start-button {
+    margin-top: 20px;
     font-weight: 600;
-	color: #f35626;
+    color: #f35626;
     background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
@@ -65,6 +68,51 @@ body {
     -ms-animation: hue 10s infinite linear;
     -o-background-clip: text;
     -o-text-fill-color: transparent;
+    -o-animation: hue 10s infinite linear;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: hue 10s infinite linear;
+}
+
+#instructionBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+    width: 100%;
+    font-size: 50px;
+    font-weight: 600;
+	color: #f35626;
+    background-image: -webkit-linear-gradient(92deg, #555a85, #35bdc2);
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+    -moz-animation: hue 10s infinite linear;
+    -ms-background-clip: text;
+    -ms-text-fill-color: transparent;
+    -ms-animation: hue 10s infinite linear;
+    -o-background-clip: text;
+    -o-text-fill-color: transparent;
+    -o-animation: hue 10s infinite linear;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: hue 10s infinite linear;
+}
+
+.instructions-button {
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 50px;
+	color: #f35626;
+    background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+    -moz-animation: hue 10s infinite linear;
+    -ms-background-clip: text;
+    -ms-text-fill-color: transparent;
+    -ms-animation: hue 10s infinite linear;
+    -o-background-clip: text;
+    -o-text-fill-color: transparent;    
     -o-animation: hue 10s infinite linear;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
