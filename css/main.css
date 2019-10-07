@@ -2,6 +2,10 @@
     font-family: 'Roboto Mono', monospace;
     margin: 0;
     user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
 }
 
 html {
@@ -410,10 +414,6 @@ body {
     position: absolute;
     width: 100px;
     height: 100px;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
 }
 
 @keyframes fadeInUp {
