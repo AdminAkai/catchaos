@@ -8,4 +8,4 @@
 https://trello.com/b/1qjIwOR5/cataga
 
 # Deployed Website
-http://jcaptain.epizy.com
+https://jcaptainnnn.github.io/
