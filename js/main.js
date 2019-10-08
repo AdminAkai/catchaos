@@ -454,7 +454,7 @@ function spawnEnemy() {
     newEnemy(game.enemyTypes.pixelcat.name)
     newEnemy(game.enemyTypes.hiddendoor.name)
   }
-  if (game.roundCount === 50) {
+  if (game.roundCount % 100) {
     newEnemy(game.enemyTypes.omnicat.name)
   }
   gameOver()
