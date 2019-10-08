@@ -92,7 +92,6 @@ function returnToTitle () {
   game.enemyCount = 0
   game.roundCount = 0
   game.timer = 3000
-  game.bombs = 3
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let currentSpace = document.getElementById('game-start')
@@ -127,7 +126,7 @@ function clickInstructions () {
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST 'IT' THOUGH!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 15 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST 'IT' THOUGH!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
@@ -154,6 +153,7 @@ function clickGameStart () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   spawnPoints()
+  game.bombs = 3
   spawnBombs()
   spawnHeart()
   var keyDownlistener = document
@@ -169,7 +169,7 @@ function gameOver () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   if (game.lives >= 0) {
     let getLives = document.querySelector("#lives")
-    if (game.totalEnemies > 10) {
+    if (game.totalEnemies > 15) {
       game.lives -= 1
       let numberOfLives = getLives.children
       if (numberOfLives.length > 0) {
@@ -194,7 +194,6 @@ function gameOver () {
           game.enemyCount = 0
           game.timer = 3000
           game.lives = 3  
-          game.bombs = 3
           clearInterval(enemySpawner)
           game.gameRun = false
           let enemyList = document.querySelectorAll('img')
@@ -223,7 +222,6 @@ function gameOver () {
           let restartGame = document.createElement('h3')
           restartGame.className = 'return-button'
           restartGame.innerHTML = 'RETURN TO MAIN MENU'
-          tearDownPowers()
           restartGame.addEventListener('click', returnToTitle)
           restartGame.addEventListener('mouseover', function() {
             let restartColor = document.getElementsByClassName('return-button')[0]
@@ -271,12 +269,15 @@ var bombUse = function(event) {
         }
         let enemyList = document.querySelectorAll('.pixelcat')
         summonDeathSound()
+        enemyDeathSound()
         game.points += enemyList.length
         for (let i = 0; i < enemyList.length; i++) {
           enemyList[i].removeEventListener('click', clickEnemy)
-          // enemyList[i].src = 'assets/spaceexplosion.gif'
+          enemyList[i].src = 'assets/explosion.gif'
           game.totalEnemies -= 1
-          enemyList[i].remove()
+          setTimeout(() => {
+            enemyList[i].remove()
+          }, 600)
           let pointsUpdate = document.querySelector("#points")
           pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
         }
@@ -438,6 +439,8 @@ function spawnEnemy() {
     game.spawnrate += 1
   } else if (game.roundCount === 15) {
     game.spawnrate += 1
+  } else if (game.roundCount === 20) {
+    game.spawnrate += 2
   }
   if (game.roundCount % 7 === 0) {
     newEnemy(game.enemyTypes.parakat.name)
@@ -457,17 +460,34 @@ function clickEnemy () {
     enemyDeathSound()
     game.points += 1
     if (game.points === 100) {
+      let currentOnScreen = document.querySelectorAll('.pixelcat')
+      game.points += currentOnScreen.length
+      for (let i = 0; i < currentOnScreen.length; i++) {
+          currentOnScreen[i].removeEventListener('click', clickEnemy)
+          currentOnScreen[i].src = 'assets/explosion.gif'
+          game.totalEnemies -= 1
+          setTimeout(() => {
+            currentOnScreen[i].remove()
+          }, 600)
+      }
       newEnemy(game.enemyTypes.omnicat.name)
     }
     game.totalEnemies -= 1
     let pointsUpdate = document.querySelector("#points")
     pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
     this.removeEventListener('click', clickEnemy)
-  // this.src = 'assets/spaceexplosion.gif'
-    this.remove()
-  //   setTimeout(() => {
-  //     this.remove()
-  //   }, 1000);
+    let currentEnemy = this.classList
+    if (currentEnemy.contains('omni')) {
+      this.src = 'assets/spaceexplosion.gif'
+      setTimeout(() => {
+        this.remove()
+      }, 1000)
+    } else {
+    this.src = 'assets/explosion.gif'
+    setTimeout(() => {
+        this.remove()
+      }, 600);
+    }
   }
   if (lives > 0) {
       enemyHitSound()
