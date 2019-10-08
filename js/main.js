@@ -88,7 +88,6 @@ function returnToTitle () {
   game.roundCount = 0
   game.timer = 3000
   game.bombs = 3
-  console.log(`there are ${game.bombs} bombs left from returnToTitle`)
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let currentSpace = document.getElementById('game-start')
@@ -191,7 +190,6 @@ function gameOver () {
           game.timer = 3000
           game.lives = 3  
           game.bombs = 3
-          console.log(`there are ${game.bombs} bombs left in game over`)
           clearInterval(enemySpawner)
           game.gameRun = false
           let enemyList = document.querySelectorAll('img')
@@ -252,27 +250,19 @@ function getRandomPosition(element) {
   return [randomX,randomY];
 }
 
-// function setUpPowers () {
-//   document.addEventListener("keypress", bombUse(event))
-// }
-
 function tearDownPowers () {
   document.removeEventListener("keypress", bombUse, true)
 }
 
 var bombUse = function(event) {
-  // var keyDownlistener = document.addEventListener("keydown", function(event) {
   if (event.code === 'Space') {
       if (game.bombs > 0) {
         game.timer = 3000
         game.bombs -= 1
-        console.log(`there are ${game.bombs} bombs left`)
         let getBombs = document.querySelector("#bombs")
         let numberOfBombs = getBombs.children
-        console.log(`there are ${numberOfBombs.length} bomb images`)
         if (numberOfBombs.length > 0) {
           getBombs.removeChild(getBombs.childNodes[0])
-          console.log(`there are only ${numberOfBombs.length} bomb images left`)
         }
         let enemyList = document.querySelectorAll('.pixelcat')
         summonDeathSound()
@@ -287,7 +277,6 @@ var bombUse = function(event) {
         }
       }
   }
-  // }})
 }
 
 function spawnBombs () {
