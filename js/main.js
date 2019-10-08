@@ -2,13 +2,29 @@ var game = {
   gameRun: false,
   points: 0,
   highScore: 0,
-  timer: 3000, //in milliseconds
+  timer: 3000, // in milliseconds
   spawnrate: 1,
   enemyCount: 0,
   totalEnemies: 0,
   lives: 3,
-  waveCount: 0,
+  roundCount: 0,
   audio: document.querySelector('#my_audio'),
+  bombs: 3,
+  enemyTypes: [
+    { 
+      name: 'pixelcat.png',
+      life: 1,
+    },
+    {
+      name: 'parakat.gif',
+      life: 1,
+    }, 
+    { 
+      name: 'hiddendoor.gif',
+      life: 2, 
+    },
+    ],
+  maxSpawn: 0,
 }
 
 function gameStart () {
@@ -40,18 +56,43 @@ function gameMain () {
   })
 } 
 
+function returnFromInstructions () {
+  let titleMain = document.getElementsByClassName('game-space')[0]
+  titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
+  let currentSpace = document.getElementById('instructionBox')
+  currentSpace.remove()
+  let parentNode = document.querySelector(".game-space")
+  let titleBox = document.createElement('div')
+  titleBox.id = 'game-start'
+  parentNode.insertBefore(titleBox, parentNode.childNodes[0])
+  let innerTitleBox = document.querySelector("#game-start")
+  let titleText = document.createElement('h1')
+  titleText.className = 'title'
+  titleText.innerHTML = 'CAT CHAOS'
+  let instructionsText = document.createElement('h3')
+  instructionsText.className = 'instructions-button'
+  instructionsText.innerHTML = 'INSTRUCTIONS'
+  let gameStartText = document.createElement('h3')
+  gameStartText.className = 'game-start-button'
+  gameStartText.innerHTML = 'GAME START'
+  innerTitleBox.appendChild(titleText)
+  innerTitleBox.appendChild(instructionsText)
+  innerTitleBox.appendChild(gameStartText)
+  this.remove()
+  gameMain()
+}
+
 function returnToTitle () {
   game.spawnrate = 1
   game.enemyCount = 0
-  game.waveCount = 0
+  game.roundCount = 0
   game.timer = 3000
+  game.bombs = 3
+  console.log(`there are ${game.bombs} bombs left from returnToTitle`)
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
-  let titleChild = titleMain.lastElementChild
-  while (titleChild) {
-    titleMain.removeChild(titleChild)
-    titleChild = titleMain.lastElementChild
-  }
+  let currentSpace = document.getElementById('game-start')
+  currentSpace.remove()
   let parentNode = document.querySelector(".game-space")
   let titleBox = document.createElement('div')
   titleBox.id = 'game-start'
@@ -76,24 +117,20 @@ function clickInstructions () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let gameDiv = document.getElementById('game-start')
-  let gameChild = gameDiv.lastElementChild
-  while (gameChild) {
-    gameDiv.removeChild(gameChild)
-    gameChild = gameDiv.lastElementChild
-  }
+  gameDiv.remove()
   let parentNode = document.querySelector(".game-space")
   let instructionBox = document.createElement('div')
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS ALSO SLOWS THEIR INVASION FOR A SHORT WHILE!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
   let returnButton = document.createElement('h3')
   returnButton.className = "return-button"
   returnButton.innerHTML = "RETURN"
-  returnButton.addEventListener('click', returnToTitle)
+  returnButton.addEventListener('click', returnFromInstructions)
   returnButton.addEventListener('mouseover', function() {
     let returnButtonColor = document.getElementsByClassName('return-button')[0]
     returnButtonColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #0400da, #0051ff)'
@@ -107,16 +144,16 @@ function clickInstructions () {
 }
 
 function clickGameStart () {
-  if (game.audio.paused) {
-    game.audio.volume = 0.1
-    game.audio.play()
-  } else {
-     game.audio.currentTime = 0
-  }
+  game.audio.volume = 0.1
+  game.audio.currentTime = 0
+  game.audio.play()
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   spawnPoints()
+  spawnBombs()
   spawnHeart()
+  var keyDownlistener = document
+  keyDownlistener.addEventListener("keydown", bombUse)
   let logoClick = document.querySelector('.logo a')
   logoClick.href = '#'
   game.gameRun = true
@@ -142,11 +179,19 @@ function gameOver () {
         }
       }
         if (game.lives === 0) {
+          tearDownPowers()
+          game.audio.pause()
+          let gameOverAudio = document.getElementById('game_over')
+          gameOverAudio.load()
+          gameOverAudio.volume = 0.4
+          gameOverAudio.play()
           gameBackground.style.background = 'black'
           game.spawnrate = 1
           game.enemyCount = 0
           game.timer = 3000
-          game.lives = 3
+          game.lives = 3  
+          game.bombs = 3
+          console.log(`there are ${game.bombs} bombs left in game over`)
           clearInterval(enemySpawner)
           game.gameRun = false
           let enemyList = document.querySelectorAll('img')
@@ -175,6 +220,7 @@ function gameOver () {
           let restartGame = document.createElement('h3')
           restartGame.className = 'return-button'
           restartGame.innerHTML = 'RETURN TO MAIN MENU'
+          tearDownPowers()
           restartGame.addEventListener('click', returnToTitle)
           restartGame.addEventListener('mouseover', function() {
             let restartColor = document.getElementsByClassName('return-button')[0]
@@ -206,6 +252,58 @@ function getRandomPosition(element) {
   return [randomX,randomY];
 }
 
+// function setUpPowers () {
+//   document.addEventListener("keypress", bombUse(event))
+// }
+
+function tearDownPowers () {
+  document.removeEventListener("keypress", bombUse, true)
+}
+
+var bombUse = function(event) {
+  // var keyDownlistener = document.addEventListener("keydown", function(event) {
+  if (event.code === 'Space') {
+      if (game.bombs > 0) {
+        game.timer = 3000
+        game.bombs -= 1
+        console.log(`there are ${game.bombs} bombs left`)
+        let getBombs = document.querySelector("#bombs")
+        let numberOfBombs = getBombs.children
+        console.log(`there are ${numberOfBombs.length} bomb images`)
+        if (numberOfBombs.length > 0) {
+          getBombs.removeChild(getBombs.childNodes[0])
+          console.log(`there are only ${numberOfBombs.length} bomb images left`)
+        }
+        let enemyList = document.querySelectorAll('.pixelcat')
+        summonDeathSound()
+        game.points += enemyList.length
+        for (let i = 0; i < enemyList.length; i++) {
+          enemyList[i].removeEventListener('click', clickEnemy)
+          enemyList[i].src = 'assets/spaceexplosion.gif'
+          game.totalEnemies -= 1
+          enemyList[i].remove()
+          let pointsUpdate = document.querySelector("#points")
+          pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
+        }
+      }
+  }
+  // }})
+}
+
+function spawnBombs () {
+  let parentNode = document.querySelector(".game-space")
+  let bombBox = document.createElement('div')
+  bombBox.id = 'bombs'
+  parentNode.insertBefore(bombBox, parentNode.childNodes[0])
+  let innerBombBox = document.querySelector("#bombs")
+  for (let i = 0; i < 3; i++) {
+      let bombElement = document.createElement('img')
+      bombElement.src = 'assets/death.gif'
+      bombElement.className = 'bomb' 
+      innerBombBox.appendChild(bombElement)
+  }
+}
+
 function spawnHeart () {
     let parentNode = document.querySelector(".game-space")
     let heartBox = document.createElement('div')
@@ -214,7 +312,7 @@ function spawnHeart () {
     let innerHeartBox = document.querySelector("#lives")
     for (let i = 0; i < 3; i++) {
         let heartElement = document.createElement('img')
-        heartElement.src = 'assets/heart.png'
+        heartElement.src = 'assets/heart.gif'
         heartElement.className = 'heart' 
         innerHeartBox.appendChild(heartElement)
     }
@@ -233,14 +331,14 @@ function spawnPoints () {
 
 function spawnEnemy() {
   game.timer -= 50
-  game.waveCount += 1
-  if (game.waveCount === 4) {
+  game.roundCount += 1
+  if (game.roundCount === 4) {
     game.spawnrate += 1
-  } else if (game.waveCount === 8) {
+  } else if (game.roundCount === 8) {
     game.spawnrate += 2
-  } else if (game.waveCount === 12) {
+  } else if (game.roundCount === 12) {
     game.spawnrate += 2
-  } else if (game.waveCount === 16) {
+  } else if (game.roundCount === 16) {
     game.spawnrate += 1
   }
   for (let i = 0; i < game.spawnrate; i++) {
@@ -281,10 +379,7 @@ function spawnEnemy() {
 }
 
 function clickEnemy () {
-  let audioEnemy = document.getElementById('cat_death')
-  audioEnemy.load()
-  audioEnemy.volume = 0.5
-  audioEnemy.play()
+  enemyDeathSound()
   game.points += 1
   game.totalEnemies -= 1
   let pointsUpdate = document.querySelector("#points")
@@ -294,6 +389,20 @@ function clickEnemy () {
   setTimeout(() => {
     this.remove()
   }, 1000);
+}
+
+function enemyDeathSound () {
+  let audioEnemy = document.getElementById('cat_death')
+  audioEnemy.load()
+  audioEnemy.volume = 0.2
+  audioEnemy.play()
+}
+
+function summonDeathSound () {
+  let audioDeath = document.getElementById('summon_death')
+  audioDeath.load()
+  audioDeath.volume = 1
+  audioDeath.play()
 }
 
 gameMain()
