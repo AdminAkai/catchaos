@@ -10,21 +10,22 @@ var game = {
   roundCount: 0,
   audio: document.querySelector('#my_audio'),
   bombs: 3,
-  enemyTypes: [
-    { 
+  enemyTypes: {
+    pixelcat: { 
       name: 'pixelcat.png',
-      life: 1,
+      lives: '1',
     },
-    {
+    parakat: {
       name: 'parakat.gif',
-      life: 1,
+      lives: '1',
     }, 
-    { 
+    hiddendoor: { 
       name: 'hiddendoor.gif',
-      life: 2, 
+      lives: '4', 
     },
-    ],
+  },
   maxSpawn: 0,
+  waveCount: 0,
 }
 
 function gameStart () {
@@ -318,66 +319,142 @@ function spawnPoints () {
   innerPointBox.innerHTML = `${game.points} CAT DESTRUCTIONS`
 }
 
-function spawnEnemy() {
-  game.timer -= 50
-  game.roundCount += 1
-  if (game.roundCount === 4) {
-    game.spawnrate += 1
-  } else if (game.roundCount === 8) {
-    game.spawnrate += 2
-  } else if (game.roundCount === 12) {
-    game.spawnrate += 2
-  } else if (game.roundCount === 16) {
-    game.spawnrate += 1
+
+function newEnemy(src, lives) {
+  if (src ==='pixelcat.png') {
+    for (let i = 0; i < game.spawnrate; i++) {
+      game.totalEnemies += 1
+      let enemyElement = document.createElement('img')
+      enemyElement.src = `assets/${src}`
+      var xy = getRandomPosition(enemyElement)
+      let positionX = xy[0]
+      let positionY = xy[1]
+      enemyElement.style.top = `${positionX}px`
+      enemyElement.style.left = `${positionY}px`
+      enemyElement.style.right = `${positionX}px`
+      enemyElement.style.bottom = `${positionY}px`
+      enemyElement.className = 'pixelcat original' 
+      enemyElement.setAttribute('lives', game.enemyTypes.pixelcat.lives)
+      enemyElement.addEventListener('click', clickEnemy)
+      document.querySelector(".game-space").appendChild(enemyElement)
+    let enemyAnim = anime({
+      targets: document.querySelectorAll('.original'),
+      scale: {
+        value: 1.5,
+        duration: 1600,
+        delay: 0,
+        easing: 'easeOutQuad',
+      }, 
+      rotate: {
+        value: 360,
+        duration: 1600,
+        easing: 'easeOutQuad',  
+      },
+      
+    })
+    game.enemyCount++
+      }
   }
-  for (let i = 0; i < game.spawnrate; i++) {
+  if (src ==='parakat.gif') {
+    for (let j = 0; j < 2; j++) {
+      game.totalEnemies += 1
+      let enemyElement = document.createElement('img')
+      enemyElement.src = `assets/${src}`
+      var xy = getRandomPosition(enemyElement)
+      let positionX = xy[0]
+      let positionY = xy[1]
+      enemyElement.style.top = `${positionX}px`
+      enemyElement.style.left = `${positionY}px`
+      enemyElement.style.right = `${positionX}px`
+      enemyElement.style.bottom = `${positionY}px`
+      enemyElement.style.width = '52px'
+      enemyElement.style.height = '100px'
+      enemyElement.className = 'pixelcat parakat' 
+      enemyElement.setAttribute('lives', game.enemyTypes.parakat.lives)
+      enemyElement.addEventListener('click', clickEnemy)
+      document.querySelector(".game-space").appendChild(enemyElement)
+      let randomMovX = Math.floor(Math.random()*200)
+      let randomMovY = Math.floor(Math.random()*200)
+      let enemyAnimTwo = anime({
+        targets: document.querySelectorAll('.parakat'),
+        loop: true,
+        direction: 'alternate',
+        translateX: {
+          value: `${randomMovX}px`,
+          duration: 800,
+        }, 
+        translateY: {
+          value: `${randomMovY}px`,
+          duration: 800,
+        },
+      })
+    }
+    game.enemyCount++
+  }
+  if (src ==='hiddendoor.gif') {
     game.totalEnemies += 1
     let enemyElement = document.createElement('img')
-    enemyElement.src = 'assets/pixelcat.png'
+    enemyElement.src = `assets/${src}`
     var xy = getRandomPosition(enemyElement)
-    while (typeof(xy) === 'undefined') {
-      xy = getRandomPosition(enemyElement)
-    }
     let positionX = xy[0]
     let positionY = xy[1]
     enemyElement.style.top = `${positionX}px`
     enemyElement.style.left = `${positionY}px`
     enemyElement.style.right = `${positionX}px`
     enemyElement.style.bottom = `${positionY}px`
-    enemyElement.className = 'pixelcat' 
+    enemyElement.style.width = '108px'
+    enemyElement.style.height = '163px'
+    enemyElement.className = 'pixelcat hiddendoor' 
+    enemyElement.setAttribute('lives', game.enemyTypes.hiddendoor.lives)
     enemyElement.addEventListener('click', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
-  let enemyAnim = anime({
-    targets: document.querySelectorAll('.pixelcat'),
-    scale: {
-      value: 1.5,
-      duration: 1600,
-      delay: 0,
-      easing: 'easeOutQuad',
-    }, 
-    rotate: {
-      value: 360,
-      duration: 1600,
-      easing: 'easeOutQuad',  
-    },
-    
-  })
-  game.enemyCount++
-    }
+    game.enemyCount++
+  }
+}
+
+function spawnEnemy() {
+  newEnemy('pixelcat.png')
+  game.roundCount += 1
+  if (game.roundCount === 4) {
+    game.spawnrate += 1
+  } else if (game.roundCount === 12) {
+    game.spawnrate += 2
+  } else if (game.roundCount === 16) {
+    game.spawnrate += 1
+  }
+  if (game.roundCount % 8 === 0) {
+    game.timer -= 50
+    newEnemy(game.enemyTypes.pixelcat.name)
+    newEnemy(game.enemyTypes.parakat.name)
+    newEnemy(game.enemyTypes.hiddendoor.name)
+  }
+  if (game.roundCount % 5 === 0) {
+    newEnemy(game.enemyTypes.pixelcat.name)
+    newEnemy(game.enemyTypes.parakat.name)
+  }
   gameOver()
 }
 
-function clickEnemy () {
-  enemyDeathSound()
-  game.points += 1
-  game.totalEnemies -= 1
-  let pointsUpdate = document.querySelector("#points")
-  pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
-  this.removeEventListener('click', clickEnemy)
-  this.src = 'assets/spaceexplosion.gif'
-  setTimeout(() => {
-    this.remove()
-  }, 1000);
+function clickEnemy () { 
+  let lives = parseInt(this.getAttribute('lives'))
+  lives -= 1
+  if (lives === 0) {
+    enemyDeathSound()
+    game.points += 1
+    game.totalEnemies -= 1
+    let pointsUpdate = document.querySelector("#points")
+    pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
+    this.removeEventListener('click', clickEnemy)
+    this.src = 'assets/spaceexplosion.gif'
+    setTimeout(() => {
+      this.remove()
+    }, 1000);
+  }
+  if (lives > 0) {
+    enemyHitSound()
+    lives.toString()
+    this.setAttribute('lives', lives)  
+  }
 }
 
 function enemyDeathSound () {
@@ -385,6 +462,13 @@ function enemyDeathSound () {
   audioEnemy.load()
   audioEnemy.volume = 0.2
   audioEnemy.play()
+}
+
+function enemyHitSound () {
+  let audioHit = document.getElementById('attack_hit')
+  audioHit.load()
+  audioHit.volume = 0.2
+  audioHit.play()
 }
 
 function summonDeathSound () {
