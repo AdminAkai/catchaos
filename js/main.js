@@ -463,19 +463,20 @@ function clickEnemy () {
     let pointsUpdate = document.querySelector("#points")
     pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
     this.removeEventListener('click', clickEnemy)
-    // this.src = 'assets/spaceexplosion.gif'
+  // this.src = 'assets/spaceexplosion.gif'
     this.remove()
   //   setTimeout(() => {
   //     this.remove()
   //   }, 1000);
-  // }
+  }
   if (lives > 0) {
-    enemyHitSound()
-    lives.toString()
-    this.setAttribute('lives', lives)  
-    this.className += ' hit'
+      enemyHitSound()
+      lives.toString()
+      this.setAttribute('lives', lives)  
+      this.className += ' hit'
   }
 }
+
 
 function enemyDeathSound () {
   let audioEnemy = document.getElementById('cat_death')
