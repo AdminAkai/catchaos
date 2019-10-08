@@ -127,7 +127,7 @@ function clickInstructions () {
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS ALSO SLOWS THEIR INVASION FOR A SHORT WHILE!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 10 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST 'IT' THOUGH!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
@@ -274,7 +274,7 @@ var bombUse = function(event) {
         game.points += enemyList.length
         for (let i = 0; i < enemyList.length; i++) {
           enemyList[i].removeEventListener('click', clickEnemy)
-          enemyList[i].src = 'assets/spaceexplosion.gif'
+          // enemyList[i].src = 'assets/spaceexplosion.gif'
           game.totalEnemies -= 1
           enemyList[i].remove()
           let pointsUpdate = document.querySelector("#points")
@@ -463,11 +463,12 @@ function clickEnemy () {
     let pointsUpdate = document.querySelector("#points")
     pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
     this.removeEventListener('click', clickEnemy)
-    this.src = 'assets/spaceexplosion.gif'
-    setTimeout(() => {
-      this.remove()
-    }, 1000);
-  }
+    // this.src = 'assets/spaceexplosion.gif'
+    this.remove()
+  //   setTimeout(() => {
+  //     this.remove()
+  //   }, 1000);
+  // }
   if (lives > 0) {
     enemyHitSound()
     lives.toString()
