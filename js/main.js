@@ -23,6 +23,10 @@ var game = {
       name: 'hiddendoor.gif',
       lives: '4', 
     },
+    omnicat: {
+      name: 'omnicat.gif',
+      lives: '100',
+    }
   },
   maxSpawn: 0,
   waveCount: 0,
@@ -373,8 +377,8 @@ function newEnemy(src, lives) {
       enemyElement.setAttribute('lives', game.enemyTypes.parakat.lives)
       enemyElement.addEventListener('click', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      let randomMovX = Math.floor(Math.random()*200)
-      let randomMovY = Math.floor(Math.random()*200)
+      let randomMovX = Math.floor(Math.random()*50)
+      let randomMovY = Math.floor(Math.random()*50)
       let enemyAnimTwo = anime({
         targets: document.querySelectorAll('.parakat'),
         loop: true,
@@ -410,6 +414,25 @@ function newEnemy(src, lives) {
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
+  if (src ==='omnicat.gif') {
+    game.totalEnemies += 3
+    let enemyElement = document.createElement('img')
+    enemyElement.src = `assets/${src}`
+    // var xy = getRandomPosition(enemyElement)
+    // let positionX = xy[0]
+    // let positionY = xy[1]
+    // enemyElement.style.top = `${positionX}px`
+    // enemyElement.style.left = `${positionY}px`
+    // enemyElement.style.right = `${positionX}px`
+    enemyElement.style.bottom = `300px`
+    enemyElement.style.width = '624px'
+    enemyElement.style.height = '484px'
+    enemyElement.className = 'omni' 
+    enemyElement.setAttribute('lives', game.enemyTypes.omnicat.lives)
+    enemyElement.addEventListener('click', clickEnemy)
+    document.querySelector(".game-space").appendChild(enemyElement)
+    game.enemyCount++
+  }
 }
 
 function spawnEnemy() {
@@ -422,15 +445,17 @@ function spawnEnemy() {
   } else if (game.roundCount === 16) {
     game.spawnrate += 1
   }
-  if (game.roundCount % 8 === 0) {
+  if (game.roundCount % 7 === 0) {
+    newEnemy(game.enemyTypes.pixelcat.name)
+    newEnemy(game.enemyTypes.parakat.name)
+  }
+  if (game.roundCount % 12 === 0) {
     game.timer -= 50
     newEnemy(game.enemyTypes.pixelcat.name)
-    newEnemy(game.enemyTypes.parakat.name)
     newEnemy(game.enemyTypes.hiddendoor.name)
   }
-  if (game.roundCount % 5 === 0) {
-    newEnemy(game.enemyTypes.pixelcat.name)
-    newEnemy(game.enemyTypes.parakat.name)
+  if (game.roundCount === 50) {
+    newEnemy(game.enemyTypes.omnicat.name)
   }
   gameOver()
 }
