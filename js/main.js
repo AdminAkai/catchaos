@@ -377,19 +377,19 @@ function newEnemy(src, lives) {
       enemyElement.setAttribute('lives', game.enemyTypes.parakat.lives)
       enemyElement.addEventListener('click', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      let randomMovX = Math.floor(Math.random()*50)
-      let randomMovY = Math.floor(Math.random()*50)
+      let randomMovX = Math.floor(Math.random()*100)
+      let randomMovY = Math.floor(Math.random()*100)
       let enemyAnimTwo = anime({
         targets: document.querySelectorAll('.parakat'),
         loop: true,
         direction: 'alternate',
         translateX: {
           value: `${randomMovX}px`,
-          duration: 800,
+          duration: 1000,
         }, 
         translateY: {
           value: `${randomMovY}px`,
-          duration: 800,
+          duration: 1000,
         },
       })
     }
@@ -418,12 +418,6 @@ function newEnemy(src, lives) {
     game.totalEnemies += 3
     let enemyElement = document.createElement('img')
     enemyElement.src = `assets/${src}`
-    // var xy = getRandomPosition(enemyElement)
-    // let positionX = xy[0]
-    // let positionY = xy[1]
-    // enemyElement.style.top = `${positionX}px`
-    // enemyElement.style.left = `${positionY}px`
-    // enemyElement.style.right = `${positionX}px`
     enemyElement.style.bottom = `300px`
     enemyElement.style.width = '624px'
     enemyElement.style.height = '484px'
@@ -438,25 +432,21 @@ function newEnemy(src, lives) {
 function spawnEnemy() {
   newEnemy('pixelcat.png')
   game.roundCount += 1
-  if (game.roundCount === 4) {
+  if (game.roundCount === 5) {
     game.spawnrate += 1
-  } else if (game.roundCount === 12) {
-    game.spawnrate += 2
-  } else if (game.roundCount === 16) {
+  } else if (game.roundCount === 10) {
+    game.spawnrate += 1
+  } else if (game.roundCount === 15) {
     game.spawnrate += 1
   }
   if (game.roundCount % 7 === 0) {
-    newEnemy(game.enemyTypes.pixelcat.name)
     newEnemy(game.enemyTypes.parakat.name)
   }
   if (game.roundCount % 12 === 0) {
     game.timer -= 50
-    newEnemy(game.enemyTypes.pixelcat.name)
     newEnemy(game.enemyTypes.hiddendoor.name)
   }
-  if (game.roundCount % 100) {
-    newEnemy(game.enemyTypes.omnicat.name)
-  }
+
   gameOver()
 }
 
@@ -466,6 +456,9 @@ function clickEnemy () {
   if (lives === 0) {
     enemyDeathSound()
     game.points += 1
+    if (game.points === 100) {
+      newEnemy(game.enemyTypes.omnicat.name)
+    }
     game.totalEnemies -= 1
     let pointsUpdate = document.querySelector("#points")
     pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
@@ -479,6 +472,7 @@ function clickEnemy () {
     enemyHitSound()
     lives.toString()
     this.setAttribute('lives', lives)  
+    this.className += ' hit'
   }
 }
 
@@ -499,7 +493,7 @@ function enemyHitSound () {
 function summonDeathSound () {
   let audioDeath = document.getElementById('summon_death')
   audioDeath.load()
-  audioDeath.volume = 1
+  audioDeath.volume = 0.5
   audioDeath.play()
 }
 
