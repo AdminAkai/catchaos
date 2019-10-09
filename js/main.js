@@ -953,7 +953,6 @@ function spawnEnemy() {
 
 function clearEnemy() {
   let currentOnScreen = document.querySelectorAll('.pixelcat')
-  game.points += currentOnScreen.length
   for (let i = 0; i < currentOnScreen.length; i++) {
     currentOnScreen[i].removeEventListener('click', clickEnemy)
     currentOnScreen[i].removeEventListener('contextmenu', clickEnemy)
