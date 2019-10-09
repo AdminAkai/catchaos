@@ -1,8 +1,8 @@
 var game = {
   gameRun: false,
-  points: 0,
+  points: 185,
   highScore: 0,
-  timer: 3000, // in milliseconds
+  timer: 2500, // in milliseconds
   spawnrate: 1,
   enemyCount: 0,
   totalEnemies: 0,
@@ -231,7 +231,7 @@ function gameOver () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   if (game.lives >= 0) {
     let getLives = document.querySelector("#lives")
-    if (game.totalEnemies > 15) {
+    if (game.totalEnemies > 100) {
       game.lives -= 1
       let numberOfLives = getLives.children
       if (numberOfLives.length > 0) {
@@ -656,16 +656,16 @@ function newEnemy(src) {
     enemyElement.addEventListener('click', clickEnemy)
     enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
-    let enemyAnimFive = anime({
-      targets: document.querySelectorAll('.omnispark')[0],
-      scale: {
-        value: 5,
-        duration: 30000,
-        delay: 0,
-        easing: 'easeOutQuad',
-      }, 
-    })
-    game.enemyCount++
+    // let enemyAnimFive = anime({
+    //   targets: document.querySelectorAll('.omnispark'),
+    //   scale: {
+    //     value: 5,
+    //     duration: 10000,
+    //     delay: 0,
+    //     easing: 'easeOutQuad',
+    //   }, 
+    // })
+    // game.enemyCount++
   }
   if (src ==='eel.gif') {
     for (let i = 0; i < game.spawnrate; i++) {
@@ -963,6 +963,8 @@ function clearEnemy() {
         currentOnScreen[i].remove()
       }, 600)
   }
+  let pointsUpdate = document.querySelector("#points")
+  pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
 }
 
 function clickEnemy () { 
@@ -971,7 +973,7 @@ function clickEnemy () {
   if (lives === 0) {
     enemyDeathSound()
     game.points += 1
-    if (game.points >= 100 && game.points < 250) {
+    if (game.points >= 100 && game.points < 200) {
       if (game.spawnOmnicat === false) {
         game.spawnOmnicat = true
         clearEnemy()      
@@ -980,19 +982,19 @@ function clickEnemy () {
     }
     if (game.points >= 200 && game.points < 300) {
       if (game.spawnOmnispark === false) {
-        game.spawnOmnispark === true
+        game.spawnOmnispark = true
         clearEnemy()
         newEnemy(game.enemyTypes.omnispark.name)
       }
     }
-    if (game.points >= 400 && game.points < 500) {
+    if (game.points >= 300 && game.points < 400) {
       if (game.spawnTheAlmightyEel === false) {
         game.spawnTheAlmightyEel = true
         clearEnemy()
         newEnemy(game.enemyTypes.almightyeel.name)
       }
     }
-    if (game.points >= 500) {
+    if (game.points >= 400) {
       if (game.spawnTheOriginalMeow === false) {
         game.spawnTheOriginalMeow = true
         clearEnemy()
