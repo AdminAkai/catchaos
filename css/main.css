@@ -243,22 +243,16 @@ body {
     position: absolute;
 }
 
-.almightyeel {
-    position: absolute;
-}
-
 .omnispark {
     position: absolute;
 }
 
-.bosshp {
+.almightyeel {
     position: absolute;
-    background-color: rgb(48, 45, 45)
 }
 
-.bossname {
-    font-size: 50px;
-    color: white;
+.theoriginalmeow {
+    position: absolute;
 }
 
 .nav-header {
