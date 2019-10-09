@@ -902,7 +902,6 @@ function spawnEnemy() {
       newEnemy(game.enemyTypes.parakat.name)
     }
     if (game.roundCount % 6 === 0) {
-      game.timer -= 50
       newEnemy(game.enemyTypes.hiddendoor.name)
     }
   }
@@ -912,7 +911,6 @@ function spawnEnemy() {
       newEnemy(game.enemyTypes.hungrycat.name)
     }
     if (game.roundCount % 8 === 0) {
-      game.timer = 2000
       newEnemy(game.enemyTypes.confused.name)
     }
   }
@@ -927,7 +925,6 @@ function spawnEnemy() {
       newEnemy(game.enemyTypes.eelswim.name)
     }
     if (game.roundCount % 12 === 0) {
-      game.timer -= 50
       newEnemy(game.enemyTypes.angryeel.name)
     }
   }
