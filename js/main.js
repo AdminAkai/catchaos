@@ -38,16 +38,51 @@ var game = {
     },
     confused: {
       name: 'confused.gif',
-      lives: 2,
+      lives: 5,
     },
     omnispark: {
       name: 'omnispark.gif',
       lives: 50,
       isAlive: true,
     },
+    eel: {
+      name: 'eel.gif',
+      lives: 3,
+    },
+    eelswim: {
+      name: 'eelswim.gif',
+      lives: 2,
+    },
+    angryeel: {
+      name: 'angryeel.gif',
+      lives: 7,
+    },
+    almightyeel: {
+      name: 'almightyeel.gif',
+      lives: 150,
+      isAlive: true,
+    },
+    spacecat: {
+      name: 'spacecat.gif',
+      lives: 5,
+    },
+    nyancat: {
+      name: 'nyancat.gif',
+      lives: 5,
+    },
+    glitchedcat: {
+      name: 'glitchedcat.gif',
+      lives: 20,
+    },
+    theoriginalmeow: {
+      name: 'theoriginalmeow',
+      lives: 250,
+    }
+
   },
   maxSpawn: 0,
   waveCount: 0,
+  changedBackground: false,
 }
 
 function gameStart () {
@@ -145,7 +180,7 @@ function clickInstructions () {
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 15 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST 'IT' THOUGH!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 15 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST THEIR GODS THOUGH!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
@@ -267,8 +302,8 @@ function getRandomPosition(element) {
   let parentElement = document.getElementsByClassName("game-space")[0]
   var x = parentElement.offsetHeight-element.clientHeight;
   var y = parentElement.offsetWidth-element.clientWidth;
-  var randomX = Math.floor(Math.random()*(x - 100))
-  var randomY = Math.floor(Math.random()*(y - 100))
+  var randomX = Math.floor(Math.random()*(x - 200))
+  var randomY = Math.floor(Math.random()*(y - 200))
   return [randomX,randomY];
 }
 
@@ -355,7 +390,6 @@ function spawnPoints () {
   innerPointBox.innerHTML = `${game.points} CAT DESTRUCTIONS`
 }
 
-
 function newEnemy(src, lives) {
   if (src ==='pixelcat.png') {
     for (let i = 0; i < game.spawnrate; i++) {
@@ -406,24 +440,26 @@ function newEnemy(src, lives) {
       enemyElement.style.bottom = `${positionY}px`
       enemyElement.style.width = '52px'
       enemyElement.style.height = '100px'
-      enemyElement.className = 'pixelcat parakat' 
+      enemyElement.className = `pixelcat parakat${j}` 
       enemyElement.setAttribute('lives', game.enemyTypes.parakat.lives)
       enemyElement.addEventListener('click', clickEnemy)
       enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      let randomMovX = Math.floor(Math.random()*100)
-      let randomMovY = Math.floor(Math.random()*100)
+      var randomMovX = Math.floor(Math.random()*100) + 50
+      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      var randomMovY = Math.floor(Math.random()*100) + 50
+      randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
       let enemyAnimTwo = anime({
-        targets: document.querySelectorAll('.parakat'),
+        targets: document.querySelectorAll(`.parakat${j}`)[0],
         loop: true,
         direction: 'alternate',
         translateX: {
           value: `${randomMovX}px`,
-          duration: 1000,
+          duration: 5000,
         }, 
         translateY: {
           value: `${randomMovY}px`,
-          duration: 1000,
+          duration: 5000,
         },
       })
     }
@@ -534,16 +570,18 @@ function newEnemy(src, lives) {
       enemyElement.style.width = '343px'
       enemyElement.style.height = '333px'
       enemyElement.className = 'pixelcat confused' 
-      enemyElement.setAttribute('lives', game.enemyTypes.parakat.lives)
+      enemyElement.setAttribute('lives', game.enemyTypes.confused.lives)
       enemyElement.addEventListener('click', clickEnemy)
       enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
+      var randomMovX = Math.floor(Math.random()*400) + 1
+      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
       let enemyAnimFour = anime({
-        targets: document.querySelectorAll('.confused'),
+        targets: document.querySelectorAll('.confused')[0],
         loop: true,
         direction: 'alternate',
         translateX: {
-          value: `400px`,
+          value: `${randomMovX}px`,
           duration: 5000,
         }, 
       })
@@ -561,16 +599,153 @@ function newEnemy(src, lives) {
     enemyElement.addEventListener('click', clickEnemy)
     enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
+    var randomMovY = Math.floor(Math.random()*400) + 1
+    randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
     let enemyAnimFive = anime({
-      targets: document.querySelector('.omnispark'),
+      targets: document.querySelectorAll('.omnispark')[0],
       loop: true,
       direction: 'alternate',
       translateY: {
-        value: '500px',
+        value: `${randomMovY}px`,
         duration: 5000,
       },
     })
     game.enemyCount++
+  }
+  if (src ==='eel.gif') {
+    for (let i = 0; i < (game.spawnrate - 2); i++) {
+      game.totalEnemies += 1
+      let enemyElement = document.createElement('img')
+      enemyElement.src = `assets/${src}`
+      var xy = getRandomPosition(enemyElement)
+      let positionX = xy[0]
+      let positionY = xy[1]
+      enemyElement.style.top = `${positionX}px`
+      enemyElement.style.left = `${positionY}px`
+      enemyElement.style.right = `${positionX}px`
+      enemyElement.style.bottom = `${positionY}px`
+      enemyElement.style.width = '150px'
+      enemyElement.style.height = '150px'
+      enemyElement.className = 'pixelcat eel' 
+      enemyElement.setAttribute('lives', game.enemyTypes.eel.lives)
+      enemyElement.addEventListener('click', clickEnemy)
+      enemyElement.addEventListener('contextmenu', clickEnemy)
+      document.querySelector(".game-space").appendChild(enemyElement)
+    let enemyAnimSix = anime({
+      targets: document.querySelectorAll('.eel'),
+      scale: {
+        value: 1.5,
+        duration: 1600,
+        delay: 0,
+        easing: 'easeOutQuad',
+      }, 
+    })
+    game.enemyCount++
+    }
+  }
+  if (src ==='eelswim.gif') {
+    for (let k = 0; k < 2; k++) {
+      game.totalEnemies += 1
+      let enemyElement = document.createElement('img')
+      enemyElement.src = `assets/${src}`
+      var xy = getRandomPosition(enemyElement)
+      let positionX = xy[0]
+      let positionY = xy[1]
+      enemyElement.style.top = `${positionX}px`
+      enemyElement.style.left = `${positionY}px`
+      enemyElement.style.right = `${positionX}px`
+      enemyElement.style.bottom = `${positionY}px`
+      enemyElement.style.width = '240px'
+      enemyElement.style.height = '240px'
+      enemyElement.className = `pixelcat eelswim${k}` 
+      enemyElement.setAttribute('lives', game.enemyTypes.eelswim.lives)
+      enemyElement.addEventListener('click', clickEnemy)
+      enemyElement.addEventListener('contextmenu', clickEnemy)
+      document.querySelector(".game-space").appendChild(enemyElement)
+      var randomMovX = Math.floor(Math.random()*200) + 100
+      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      var randomMovY = Math.floor(Math.random()*200) + 100
+      randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      let enemyAnimSeven = anime({
+        targets: document.querySelector(`.eelswim${k}`),
+        loop: true,
+        direction: 'alternate',
+        translateX: {
+          value: `${randomMovX}px`,
+          duration: 4000,
+        }, 
+        translateY: {
+          value: `${randomMovY}px`,
+          duration: 4000,
+        },
+      })
+      game.enemyCount++
+    }  
+  }
+  if (src ==='angryeel.gif') {
+    game.totalEnemies += 1
+    let enemyElement = document.createElement('img')
+    enemyElement.src = `assets/${src}`
+    var xy = getRandomPosition(enemyElement)
+    let positionX = xy[0]
+    let positionY = xy[1]
+    enemyElement.style.top = `${positionX}px`
+    enemyElement.style.left = `${positionY}px`
+    enemyElement.style.right = `${positionX}px`
+    enemyElement.style.bottom = `${positionY}px`
+    enemyElement.style.width = '360px'
+    enemyElement.style.height = '360px'
+    enemyElement.className = 'pixelcat angryeel' 
+    enemyElement.setAttribute('lives', game.enemyTypes.angryeel.lives)
+    enemyElement.addEventListener('click', clickEnemy)
+    enemyElement.addEventListener('contextmenu', clickEnemy)
+    document.querySelector(".game-space").appendChild(enemyElement)
+    game.enemyCount++
+  }
+  if (src ==='almightyeel.gif') {
+    game.totalEnemies += 3
+    let enemyElement = document.createElement('img')
+    enemyElement.src = `assets/${src}`
+    enemyElement.style.bottom = `150px`
+    enemyElement.style.width = '472px'
+    enemyElement.style.height = '624px'
+    enemyElement.className = 'almightyeel' 
+    enemyElement.setAttribute('lives', game.enemyTypes.omnicat.lives)
+    enemyElement.addEventListener('click', clickEnemy)
+    enemyElement.addEventListener('contextmenu', clickEnemy)
+    document.querySelector(".game-space").appendChild(enemyElement)
+    game.enemyCount++
+  }
+  if (src ==='spacecat.gif') {
+    for (let i = 0; i < (game.spawnrate - 3); i++) {
+      game.totalEnemies += 1
+      let enemyElement = document.createElement('img')
+      enemyElement.src = `assets/${src}`
+      var xy = getRandomPosition(enemyElement)
+      let positionX = xy[0]
+      let positionY = xy[1]
+      enemyElement.style.top = `${positionX}px`
+      enemyElement.style.left = `${positionY}px`
+      enemyElement.style.right = `${positionX}px`
+      enemyElement.style.bottom = `${positionY}px`
+      enemyElement.style.width = '150px'
+      enemyElement.style.height = '150px'
+      enemyElement.className = 'pixelcat eel' 
+      enemyElement.setAttribute('lives', game.enemyTypes.eel.lives)
+      enemyElement.addEventListener('click', clickEnemy)
+      enemyElement.addEventListener('contextmenu', clickEnemy)
+      document.querySelector(".game-space").appendChild(enemyElement)
+    let enemyAnimSix = anime({
+      targets: document.querySelectorAll('.eel'),
+      scale: {
+        value: 1.5,
+        duration: 1600,
+        delay: 0,
+        easing: 'easeOutQuad',
+      }, 
+    })
+    game.enemyCount++
+    }
   }
 }
 
@@ -595,7 +770,7 @@ function spawnEnemy() {
       newEnemy(game.enemyTypes.hiddendoor.name)
     }
   }
-  if (game.enemyTypes.omnicat.isAlive === false) {
+  if (game.enemyTypes.omnicat.isAlive === false && game.enemyTypes.omnispark.isAlive === true) {
     newEnemy(game.enemyTypes.dancecat.name)
     if (game.roundCount % 7 === 0) {
       newEnemy(game.enemyTypes.hungrycat.name)
@@ -604,8 +779,23 @@ function spawnEnemy() {
       game.timer -= 50
       newEnemy(game.enemyTypes.confused.name)
     }
+  }
+  if (game.enemyTypes.omnispark.isAlive === false && game.enemyTypes.almightyeel.isAlive === true) {
+    if (game.changedBackground === false) {
+      let currentBackground = document.getElementsByClassName('game-space')[0]
+      currentBackground.style.background = 'linear-gradient(to left, #0661c9, #001486)'
+      game.changedBackground = true
+    }
+    newEnemy(game.enemyTypes.eel.name)
+    if (game.roundCount % 7 === 0) {
+      newEnemy(game.enemyTypes.eelswim.name)
+    }
+    if (game.roundCount % 12 === 0) {
+      game.timer -= 50
+      newEnemy(game.enemyTypes.angryeel.name)
+    }
+  }
   gameOver()
-  } 
 }
 
 function clickEnemy () { 
@@ -627,6 +817,7 @@ function clickEnemy () {
           }, 600)
       }
       newEnemy(game.enemyTypes.omnicat.name)
+      
     }
     if (game.points === 250) {
       let currentOnScreen = document.querySelectorAll('.pixelcat')
@@ -641,6 +832,20 @@ function clickEnemy () {
           }, 600)
       }
       newEnemy(game.enemyTypes.omnispark.name)
+    }
+    if (game.points === 500) {
+      let currentOnScreen = document.querySelectorAll('.pixelcat')
+      game.points += currentOnScreen.length
+      for (let i = 0; i < currentOnScreen.length; i++) {
+        currentOnScreen[i].removeEventListener('click', clickEnemy)
+        currentOnScreen[i].removeEventListener('contextmenu', clickEnemy)
+          currentOnScreen[i].src = 'assets/explosion.gif'
+          game.totalEnemies -= 1
+          setTimeout(() => {
+            currentOnScreen[i].remove()
+          }, 600)
+      }
+      newEnemy(game.enemyTypes.almightyeel.name)
     }
     game.totalEnemies -= 1
     let pointsUpdate = document.querySelector("#points")
@@ -664,6 +869,14 @@ function clickEnemy () {
         this.remove()
       }, 1000)
     }
+    if (currentEnemy.contains('almightyeel')) {
+      extraBombs()
+      game.enemyTypes.almightyeel.isAlive = false
+      this.src = 'assets/spaceexplosion.gif'
+      setTimeout(() => {
+        this.remove()
+      }, 1000)
+    }
     if (currentEnemy.contains('pixelcat')) {
       this.src = 'assets/explosion.gif'
       setTimeout(() => {
@@ -672,10 +885,22 @@ function clickEnemy () {
     }
   }
   if (lives > 0) {
+      var randomTurn = Math.floor(Math.random()*10) + 5
+      randomTurn *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      let currentWidth = this.style.width
+      let currentHeight = this.style.height
+      currentWidth.replace('px', '')
+      currentHeight.replace('px', '')
+      currentWidth = parseInt(currentWidth) - 2
+      currentHeight = parseInt(currentHeight) - 2
+      currentWidth.toString()
+      currentHeight.toString()
+      this.style.width = `${currentWidth}px`
+      this.style.height = `${currentHeight}px`
+      this.style.transform = `rotate(${randomTurn}deg)`
       enemyHitSound()
       lives.toString()
       this.setAttribute('lives', lives)  
-      this.className += ' hit'
   }
 }
 
