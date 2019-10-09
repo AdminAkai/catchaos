@@ -153,7 +153,6 @@ function returnToTitle () {
   game.spawnrate = 1
   game.enemyCount = 0
   game.roundCount = 0
-  game.timer = 3000
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let currentSpace = document.getElementById('game-start')
@@ -250,7 +249,6 @@ function gameOver () {
           gameBackground.style.background = 'black'
           game.spawnrate = 1
           game.enemyCount = 0
-          game.timer = 3000
           game.lives = 3  
           game.bombs = 0
           clearInterval(enemySpawner)
@@ -311,7 +309,6 @@ function gameFinished () {
   gameBackground.style.background = 'linear-gradient(to top, #a7a7a7, #ffffff)'
   game.spawnrate = 1
   game.enemyCount = 0
-  game.timer = 3000
   game.lives = 3  
   game.bombs = 0
   clearInterval(enemySpawner)
@@ -370,7 +367,6 @@ function tearDownPowers () {
 var bombUse = function(event) {
   if (event.code === 'Space') {
       if (game.bombs > 0) {
-        game.timer = 3000
         game.bombs -= 1
         let getBombs = document.querySelectorAll(".bombs img")
         for (let j = 0; j < getBombs.length; j++) {
