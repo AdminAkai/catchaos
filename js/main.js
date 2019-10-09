@@ -2,7 +2,7 @@ var game = {
   gameRun: false,
   points: 0,
   highScore: 0,
-  timer: 2500, // in milliseconds
+  timer: 2000, // in milliseconds
   spawnrate: 1,
   enemyCount: 0,
   totalEnemies: 0,
@@ -191,7 +191,7 @@ function clickInstructions () {
   instructionBox.id = 'instructionBox'
   parentNode.insertBefore(instructionBox, parentNode.childNodes[0])
   let innerInstructionBox = document.querySelector("#instructionBox")
-  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 15 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST THEIR GODS THOUGH!"
+  let instructions = "ALL NAVIGATION BUTTONS ARE DISABLED WHEN THE GAME STARTS<br>CLICK THE CATS TO MAKE THEM EXPLODE!<br>IF THERE ARE MORE THAN 20 CATS ON THE SCREEN BY THE NEXT WAVE,<br>YOU TAKE DAMAGE!<br>SOME CATS TAKE MORE THAN 1 HIT<br>HIT SPACEBAR TO SUMMON DEATH AND CLEAR THE WHOLE SCREEN FROM CATS!<br>THIS DOESN'T WORK AGAINST THEIR GODS THOUGH!<br>GOOD LUCK!"
   innerInstructionBox.innerHTML = `${instructions}`
   let returnButtonBox = document.createElement('div')
   returnButtonBox.className = 'return-box'
@@ -231,8 +231,9 @@ function gameOver () {
   let gameBackground = document.getElementsByClassName('game-space')[0]
   if (game.lives >= 0) {
     let getLives = document.querySelector("#lives")
-    if (game.totalEnemies > 100) {
+    if (game.totalEnemies > 20) {
       game.lives -= 1
+      clearEnemy()
       let numberOfLives = getLives.children
       if (numberOfLives.length > 0) {
         getLives.removeChild(getLives.childNodes[0])  
