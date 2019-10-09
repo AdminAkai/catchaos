@@ -148,10 +148,7 @@ function returnFromInstructions () {
 }
 
 function returnToTitle () {
-  game.enemyTypes.omnicat.isAlive = true
-  game.enemyTypes.omnispark.isAlive = true
-  game.enemyTypes.almightyeel.isAlive = true
-  game.enemyTypes.theoriginalmeow.isAlive = true
+  bossReset()
   gameStopAudio()
   game.spawnrate = 1
   game.enemyCount = 0
@@ -212,6 +209,7 @@ function clickInstructions () {
 }
 
 function clickGameStart () {
+  bossReset()
   gameStartAudio()
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
@@ -448,6 +446,17 @@ function spawnPoints () {
   innerPointBox.innerHTML = `${game.points} CAT DESTRUCTIONS`
 }
 
+function bossReset () {
+  game.enemyTypes.omnicat.isAlive = true
+  game.enemyTypes.omnispark.isAlive = true
+  game.enemyTypes.almightyeel.isAlive = true
+  game.enemyTypes.theoriginalmeow.isAlive = true
+  game.spawnOmnicat = false
+  game.spawnOmnispark = false
+  game.spawnTheAlmightyEel = false
+  game.spawnTheOriginalMeow = false
+}
+
 function newEnemy(src) {
   if (src ==='pixelcat.png') {
     for (let i = 0; i < game.spawnrate; i++) {
@@ -657,16 +666,6 @@ function newEnemy(src) {
     enemyElement.addEventListener('click', clickEnemy)
     enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
-    // let enemyAnimFive = anime({
-    //   targets: document.querySelectorAll('.omnispark'),
-    //   scale: {
-    //     value: 5,
-    //     duration: 10000,
-    //     delay: 0,
-    //     easing: 'easeOutQuad',
-    //   }, 
-    // })
-    // game.enemyCount++
   }
   if (src ==='eel.gif') {
     for (let i = 0; i < game.spawnrate; i++) {
@@ -964,8 +963,6 @@ function clearEnemy() {
         currentOnScreen[i].remove()
       }, 600)
   }
-  let pointsUpdate = document.querySelector("#points")
-  pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
 }
 
 function clickEnemy () { 
