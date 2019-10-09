@@ -1,6 +1,6 @@
 var game = {
   gameRun: false,
-  points: 185,
+  points: 0,
   highScore: 0,
   timer: 2500, // in milliseconds
   spawnrate: 1,
