@@ -196,7 +196,7 @@ body {
     }
 }
 
-#bombs {
+.bombs {
     height: 110px;
     width: 100%;
     display: flex;
@@ -205,7 +205,7 @@ body {
     padding-top: -10px;
 }
 
-#bombs img {
+.bombs img {
         margin-top: 1px;
         margin-left: 18px;
         height: 100px;
@@ -239,6 +239,26 @@ body {
 }
 
 .omni {
+    position: absolute;
+    -webkit-animation-name: shake;
+    -webkit-animation-duration: 0.5s;
+    -webkit-transform-origin:50% 50%;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-name: shake;
+    -moz-animation-duration: 0.5s;
+    -moz-transform-origin:50% 50%;
+    -moz-animation-iteration-count: infinite;
+    -ms-animation-name: shake;
+    -ms-animation-duration: 0.5s;
+    -ms-transform-origin:50% 50%;
+    -ms-animation-iteration-count: infinite;
+    -o-animation-name: shake;
+    -o-animation-duration: 0.5s;
+    -o-transform-origin:50% 50%;
+    -o-animation-iteration-count: infinite;
+}
+
+.omnispark {
     position: absolute;
     -webkit-animation-name: shake;
     -webkit-animation-duration: 0.5s;
