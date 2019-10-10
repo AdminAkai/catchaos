@@ -366,6 +366,7 @@ function tearDownPowers () {
 
 var bombUse = function(event) {
   let currentClone
+  let cloneList = []
   if (event.code === 'Space') {
       if (game.bombs > 0) {
         game.bombs -= 1
@@ -385,15 +386,18 @@ var bombUse = function(event) {
           currentClone.style.pointerEvents = "none"
           currentClone.src = 'assets/explosion.gif'
           document.querySelector(".game-space").appendChild(currentClone)
-          setTimeout(() => {
-            currentClone.remove()
-          }, 600)
+          cloneList.push(currentClone)
           game.totalEnemies -= 1
-          let pointsUpdate = document.querySelector("#points")
-          pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
+        }
+        let pointsUpdate = document.querySelector("#points")
+        pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
+        for (let k = 0; k < cloneList.length; k++) {
+          setTimeout(() => {
+            cloneList[k].remove()
+          }, 600)
         }
       }
-    }
+  }
 }
 
 function spawnBombs () {
