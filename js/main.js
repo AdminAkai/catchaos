@@ -365,6 +365,7 @@ function tearDownPowers () {
 }
 
 var bombUse = function(event) {
+  let currentClone
   if (event.code === 'Space') {
       if (game.bombs > 0) {
         game.bombs -= 1
@@ -378,11 +379,16 @@ var bombUse = function(event) {
         game.points += enemyList.length
         for (let i = 0; i < enemyList.length; i++) {
           enemyList[i].removeEventListener('click', clickEnemy)
-          enemyList[i].src = 'assets/explosion.gif'
-          game.totalEnemies -= 1
+          currentClone = enemyList[i]
+          currentClone.className = 'death-anim'
+          enemyList[i].remove()
+          currentClone.style.pointerEvents = "none"
+          currentClone.src = 'assets/explosion.gif'
+          document.querySelector(".game-space").appendChild(currentClone)
           setTimeout(() => {
-            enemyList[i].remove()
+            currentClone.remove()
           }, 600)
+          game.totalEnemies -= 1
           let pointsUpdate = document.querySelector("#points")
           pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
         }

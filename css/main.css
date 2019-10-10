@@ -441,6 +441,12 @@ body {
     height: 75px;
 }
 
+.death-anim {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+}
+
 @keyframes fadeInUp {
     from {
         transform: translate3d(0,40px,0)
