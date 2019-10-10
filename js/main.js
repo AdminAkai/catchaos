@@ -996,6 +996,7 @@ function clickEnemy () {
     pointsUpdate.innerHTML = `${game.points} CAT DESTRUCTIONS`
     this.removeEventListener('click', clickEnemy)
     this.removeEventListener('contextmenu', clickEnemy)
+    this.style.pointerEvents = "none"
     let currentEnemy = this.classList
     if (currentEnemy.contains('omni')) {
       extraBombs()
