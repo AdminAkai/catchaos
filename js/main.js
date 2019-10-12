@@ -434,7 +434,6 @@ function spawnBombs () {
 }
 
 function extraBombs () {
-  let parentNode = document.querySelector(".bombs")
   game.bombs += 3
   let innerBombBox = document.querySelector(".bombs")
   for (let i = 0; i < 3; i++) {
@@ -495,6 +494,7 @@ function enemyConstructor (src) {
   enemyElement.addEventListener('contextmenu', clickEnemy)
   return enemyElement
 }
+
 function bossConstructor (src) {
   let enemyElement = document.createElement('img')
   enemyElement.src = `assets/${src}`
@@ -893,29 +893,29 @@ function clickEnemy () {
     enemyDeathSound()
     //
     game.points += 1
-    if (game.points >= 100 && game.points < 200) {
+    if (game.points >= 100 && game.points < 250) {
       if (game.spawnOmnicat === false) {
         game.spawnOmnicat = true
         clearEnemy()      
         newEnemy(game.enemyTypes.omnicat.name)
       }
     }
-    if (game.points >= 200 && game.points < 300) {
-      if (game.spawnOmnispark === false) {
+    if (game.points >= 250 && game.points < 350) {
+      if (game.spawnOmnispark === false &&  game.enemyTypes.omnicat.isAlive === false) {
         game.spawnOmnispark = true
         clearEnemy()
         newEnemy(game.enemyTypes.omnispark.name)
       }
     }
-    if (game.points >= 300 && game.points < 400) {
-      if (game.spawnTheAlmightyEel === false) {
+    if (game.points >= 350 && game.points < 450) {
+      if (game.spawnTheAlmightyEel === false && game.enemyTypes.omnispark.isAlive === false) {
         game.spawnTheAlmightyEel = true
         clearEnemy()
         newEnemy(game.enemyTypes.almightyeel.name)
       }
     }
-    if (game.points >= 400) {
-      if (game.spawnTheOriginalMeow === false) {
+    if (game.points >= 500) {
+      if (game.spawnTheOriginalMeow === false && game.enemyTypes.almightyeel.isAlive === false) {
         game.spawnTheOriginalMeow = true
         clearEnemy()
         newEnemy(game.enemyTypes.theoriginalmeow.name)
