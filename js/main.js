@@ -99,6 +99,7 @@ function gameStart () {
 
 function gameMain () {
   document.addEventListener('contextmenu', event => event.preventDefault())
+  // create button function marked
   let startGame = document.getElementsByClassName("game-start-button")[0]
   let instructionsButton = document.getElementsByClassName("instructions-button")[0]
   instructionsButton.addEventListener('click', clickInstructions)
@@ -119,6 +120,7 @@ function gameMain () {
     let gameStartColor = document.getElementsByClassName('game-start-button')[0]
     gameStartColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #f35626, #feab3a)'
   })
+  //
 } 
 
 function returnFromInstructions () {
@@ -126,6 +128,7 @@ function returnFromInstructions () {
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let currentSpace = document.getElementById('instructionBox')
   currentSpace.remove()
+  // main menu box function
   let parentNode = document.querySelector(".game-space")
   let titleBox = document.createElement('div')
   titleBox.id = 'game-start'
@@ -143,16 +146,20 @@ function returnFromInstructions () {
   innerTitleBox.appendChild(titleText)
   innerTitleBox.appendChild(instructionsText)
   innerTitleBox.appendChild(gameStartText)
+  //
   this.remove()
   gameMain()
 }
 
 function returnToTitle () {
   bossReset()
+  // audio marked
   gameStopAudio()
+  //
   game.spawnrate = 1
   game.enemyCount = 0
   game.roundCount = 0
+  // main menu box
   let titleMain = document.getElementsByClassName('game-space')[0]
   titleMain.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   let currentSpace = document.getElementById('game-start')
@@ -174,6 +181,7 @@ function returnToTitle () {
   innerTitleBox.appendChild(titleText)
   innerTitleBox.appendChild(instructionsText)
   innerTitleBox.appendChild(gameStartText)
+  //
   gameMain()
 }
 
@@ -194,6 +202,7 @@ function clickInstructions () {
   let returnButton = document.createElement('h3')
   returnButton.className = "return-button"
   returnButton.innerHTML = "RETURN"
+  // create button function
   returnButton.addEventListener('click', returnFromInstructions)
   returnButton.addEventListener('mouseover', function() {
     let returnButtonColor = document.getElementsByClassName('return-button')[0]
@@ -203,13 +212,16 @@ function clickInstructions () {
     let returnButtonColor = document.getElementsByClassName('return-button')[0]
     returnButtonColor.style.backgroundImage = '-webkit-linear-gradient(92deg, #f35626, #feab3a)'
   })
+  //
   returnButtonBox.appendChild(returnButton)
   parentNode.insertBefore(returnButtonBox, parentNode.hasChildNodes[0])
 }
 
 function clickGameStart () {
   bossReset()
+  // audio marked
   gameStartAudio()
+  // 
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to left, #f163ce, #ec6565)'
   spawnPoints()
@@ -244,7 +256,9 @@ function gameOver () {
       }
         if (game.lives === 0) {
           tearDownPowers()
+          // audio marked
           game.audio.pause()
+          // 
           gameOverSound()
           gameBackground.style.background = 'black'
           game.spawnrate = 1
@@ -303,8 +317,10 @@ function gameOver () {
 
 function gameFinished () {
   tearDownPowers()
+  // audio marked
   game.audio.pause()
   gameFinishedSound()
+  //
   let gameBackground = document.getElementsByClassName('game-space')[0]
   gameBackground.style.background = 'linear-gradient(to top, #a7a7a7, #ffffff)'
   game.spawnrate = 1
@@ -375,8 +391,10 @@ var bombUse = function(event) {
           getBombs[0].remove()
         }
         let enemyList = document.querySelectorAll('.pixelcat')
+        // audio marked
         summonDeathSound()
         enemyDeathSound()
+        //
         game.points += enemyList.length
         for (let i = 0; i < enemyList.length; i++) {
           enemyList[i].removeEventListener('click', clickEnemy)
@@ -463,23 +481,58 @@ function bossReset () {
   game.spawnTheOriginalMeow = false
 }
 
+function enemyConstructor (src) {
+  let enemyElement = document.createElement('img')
+  enemyElement.src = `assets/${src}`
+  var xy = getRandomPosition(enemyElement)
+  let positionX = xy[0]
+  let positionY = xy[1]
+  enemyElement.style.top = `${positionX}px`
+  enemyElement.style.left = `${positionY}px`
+  enemyElement.style.right = `${positionX}px`
+  enemyElement.style.bottom = `${positionY}px`
+  enemyElement.addEventListener('click', clickEnemy)
+  enemyElement.addEventListener('contextmenu', clickEnemy)
+  return enemyElement
+}
+function bossConstructor (src) {
+  let enemyElement = document.createElement('img')
+  enemyElement.src = `assets/${src}`
+  enemyElement.addEventListener('click', clickEnemy)
+  enemyElement.addEventListener('contextmenu', clickEnemy)
+  return enemyElement
+}
+
+function randomNumberGenerator (src) {
+  let coordinates = []
+  let i = 0
+  let j = 0
+  if (src === 'parakat.gif' || src === 'eelswim.gif' || src === 'spacecat.gif' || src === 'nyancat.gif') {
+    i = 100
+    k = 100
+    j = 50
+  }
+  if (src === 'confused.gif') {
+    i = 400
+    k = 1
+    j = 1
+  }
+  var randomMovX = Math.floor(Math.random()*i) + j
+  randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+  var randomMovY = Math.floor(Math.random()*k) + j
+  randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+  coordinates.push(randomMovX)
+  coordinates.push(randomMovX)
+  return coordinates
+}
+
 function newEnemy(src) {
   if (src ==='pixelcat.png') {
     for (let i = 0; i < game.spawnrate; i++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.className = 'pixelcat original' 
       enemyElement.setAttribute('lives', game.enemyTypes.pixelcat.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
     let enemyAnim = anime({
       targets: document.querySelectorAll('.original'),
@@ -502,36 +555,23 @@ function newEnemy(src) {
   if (src ==='parakat.gif') {
     for (let j = 0; j < 2; j++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.style.width = '52px'
       enemyElement.style.height = '100px'
       enemyElement.className = `pixelcat parakat${j}` 
       enemyElement.setAttribute('lives', game.enemyTypes.parakat.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      var randomMovX = Math.floor(Math.random()*100) + 50
-      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
-      var randomMovY = Math.floor(Math.random()*100) + 50
-      randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      let coordinates = randomNumberGenerator(src)
       let enemyAnimTwo = anime({
         targets: document.querySelectorAll(`.parakat${j}`)[0],
         loop: true,
         direction: 'alternate',
         translateX: {
-          value: `${randomMovX}px`,
+          value: `${coordinates[0]}px`,
           duration: 5000,
         }, 
         translateY: {
-          value: `${randomMovY}px`,
+          value: `${coordinates[1]}px`,
           duration: 5000,
         },
       })
@@ -540,54 +580,31 @@ function newEnemy(src) {
   }
   if (src ==='hiddendoor.gif') {
     game.totalEnemies += 1
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
-    var xy = getRandomPosition(enemyElement)
-    let positionX = xy[0]
-    let positionY = xy[1]
-    enemyElement.style.top = `${positionX}px`
-    enemyElement.style.left = `${positionY}px`
-    enemyElement.style.right = `${positionX}px`
-    enemyElement.style.bottom = `${positionY}px`
+    let enemyElement = enemyConstructor(src)
     enemyElement.style.width = '108px'
     enemyElement.style.height = '163px'
     enemyElement.className = 'pixelcat hiddendoor' 
     enemyElement.setAttribute('lives', game.enemyTypes.hiddendoor.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
   if (src ==='omnicat.gif') {
     game.totalEnemies += 3
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
+    let enemyElement = bossConstructor(src) 
     enemyElement.style.bottom = `300px`
     enemyElement.style.width = '624px'
     enemyElement.style.height = '484px'
     enemyElement.className = 'omni' 
     enemyElement.setAttribute('lives', game.enemyTypes.omnicat.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
   if (src ==='dancecat.gif') {
     for (let i = 0; i < (game.spawnrate - 2); i++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.className = 'pixelcat dancecat' 
       enemyElement.setAttribute('lives', game.enemyTypes.dancecat.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
     let enemyAnimThree = anime({
       targets: document.querySelectorAll('.dancecat'),
@@ -610,87 +627,53 @@ function newEnemy(src) {
   if (src ==='hungrycat.gif') {
     for (let j = 0; j < 2; j++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.style.width = '150px'
       enemyElement.style.height = '150px'
       enemyElement.className = 'pixelcat hungrycat' 
       enemyElement.setAttribute('lives', game.enemyTypes.hungrycat.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
     }
     game.enemyCount++
   }
   if (src ==='confused.gif') {
-      game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
-      enemyElement.style.width = '343px'
-      enemyElement.style.height = '333px'
-      enemyElement.className = 'pixelcat confused' 
-      enemyElement.setAttribute('lives', game.enemyTypes.confused.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
-      document.querySelector(".game-space").appendChild(enemyElement)
-      var randomMovX = Math.floor(Math.random()*400) + 1
-      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
-      let enemyAnimFour = anime({
-        targets: document.querySelectorAll('.confused')[0],
-        loop: true,
-        direction: 'alternate',
-        translateX: {
-          value: `${randomMovX}px`,
-          duration: 5000,
-        }, 
-      })
+    game.totalEnemies += 1
+    let enemyElement = enemyConstructor(src)
+    enemyElement.style.width = '343px'
+    enemyElement.style.height = '333px'
+    enemyElement.className = 'pixelcat confused' 
+    enemyElement.setAttribute('lives', game.enemyTypes.confused.lives)
+    document.querySelector(".game-space").appendChild(enemyElement)
+    let coordinates = randomNumberGenerator(src)
+    let enemyAnimFour = anime({
+      targets: document.querySelectorAll('.confused')[0],
+      loop: true,
+      direction: 'alternate',
+      translateX: {
+      value: `${coordinates[0]}px`,
+      duration: 5000,
+    }, 
+    })
     game.enemyCount++
   }
   if (src ==='omnispark.gif') {
     game.totalEnemies += 3
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
+    let enemyElement = bossConstructor(src) 
     enemyElement.style.bottom = `300px`
     enemyElement.style.width = '350px'
     enemyElement.style.height = '350px'
     enemyElement.className = 'omnispark' 
     enemyElement.setAttribute('lives', game.enemyTypes.omnispark.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
   }
   if (src ==='eel.gif') {
     for (let i = 0; i < game.spawnrate; i++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.style.width = '150px'
       enemyElement.style.height = '150px'
       enemyElement.className = 'pixelcat eel' 
       enemyElement.setAttribute('lives', game.enemyTypes.eel.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
     let enemyAnimSix = anime({
       targets: document.querySelectorAll('.eel'),
@@ -707,36 +690,23 @@ function newEnemy(src) {
   if (src ==='eelswim.gif') {
     for (let k = 0; k < 2; k++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.style.width = '240px'
       enemyElement.style.height = '240px'
       enemyElement.className = `pixelcat eelswim${k}` 
       enemyElement.setAttribute('lives', game.enemyTypes.eelswim.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      var randomMovX = Math.floor(Math.random()*200) + 100
-      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
-      var randomMovY = Math.floor(Math.random()*200) + 100
-      randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      let coordinates = randomNumberGenerator(src)
       let enemyAnimSeven = anime({
         targets: document.querySelector(`.eelswim${k}`),
         loop: true,
         direction: 'alternate',
         translateX: {
-          value: `${randomMovX}px`,
+          value: `${coordinates[0]}px`,
           duration: 4000,
         }, 
         translateY: {
-          value: `${randomMovY}px`,
+          value: `${coordinates[1]}px`,
           duration: 4000,
         },
       })
@@ -745,71 +715,45 @@ function newEnemy(src) {
   }
   if (src ==='angryeel.gif') {
     game.totalEnemies += 1
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
-    var xy = getRandomPosition(enemyElement)
-    let positionX = xy[0]
-    let positionY = xy[1]
-    enemyElement.style.top = `${positionX}px`
-    enemyElement.style.left = `${positionY}px`
-    enemyElement.style.right = `${positionX}px`
-    enemyElement.style.bottom = `${positionY}px`
+    let enemyElement = enemyConstructor(src)
     enemyElement.style.width = '360px'
     enemyElement.style.height = '360px'
     enemyElement.className = 'pixelcat angryeel' 
     enemyElement.setAttribute('lives', game.enemyTypes.angryeel.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
   if (src ==='almightyeel.gif') {
     game.totalEnemies += 3
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
+    let enemyElement = bossConstructor(src) 
     enemyElement.style.bottom = `150px`
     enemyElement.style.width = '472px'
     enemyElement.style.height = '624px'
     enemyElement.className = 'almightyeel' 
     enemyElement.setAttribute('lives', game.enemyTypes.omnicat.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
   if (src ==='spacecat.gif') {
     for (let i = 0; i < (game.spawnrate - 2); i++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.style.width = '269px'
       enemyElement.style.height = '224px'
       enemyElement.className = `pixelcat spacecat${i}`
       enemyElement.setAttribute('lives', game.enemyTypes.spacecat.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      var randomMovX = Math.floor(Math.random()*100) + 50
-      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
-      var randomMovY = Math.floor(Math.random()*100) + 50
-      randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      let coordinates = randomNumberGenerator(src)
       let enemyAnimEight = anime({
         targets: document.querySelectorAll(`.spacecat${i}`)[0],
         loop: true,
         direction: 'alternate',
         translateX: {
-          value: `${randomMovX}px`,
+          value: `${coordinates[0]}px`,
           duration: 5000,
         }, 
         translateY: {
-          value: `${randomMovY}px`,
+          value: `${coordinates[1]}px`,
           duration: 5000,
         },
       })
@@ -819,36 +763,23 @@ function newEnemy(src) {
   if (src ==='nyancat.gif') {
     for (let j = 0; j < 2; j++) {
       game.totalEnemies += 1
-      let enemyElement = document.createElement('img')
-      enemyElement.src = `assets/${src}`
-      var xy = getRandomPosition(enemyElement)
-      let positionX = xy[0]
-      let positionY = xy[1]
-      enemyElement.style.top = `${positionX}px`
-      enemyElement.style.left = `${positionY}px`
-      enemyElement.style.right = `${positionX}px`
-      enemyElement.style.bottom = `${positionY}px`
+      let enemyElement = enemyConstructor(src)
       enemyElement.style.width = '280px'
       enemyElement.style.height = '196px'
       enemyElement.className = `pixelcat nyancat${j}` 
       enemyElement.setAttribute('lives', game.enemyTypes.nyancat.lives)
-      enemyElement.addEventListener('click', clickEnemy)
-      enemyElement.addEventListener('contextmenu', clickEnemy)
       document.querySelector(".game-space").appendChild(enemyElement)
-      var randomMovX = Math.floor(Math.random()*100) + 50
-      randomMovX *= Math.floor(Math.random()*2) == 1 ? 1 : -1
-      var randomMovY = Math.floor(Math.random()*100) + 50
-      randomMovY *= Math.floor(Math.random()*2) == 1 ? 1 : -1
+      let coordinates = randomNumberGenerator(src)
       let enemyAnimNine = anime({
         targets: document.querySelectorAll(`.nyancat${j}`)[0],
         loop: true,
         direction: 'alternate',
         translateX: {
-          value: `${randomMovX}px`,
+          value: `${coordinates[0]}px`,
           duration: 3000,
         }, 
         translateY: {
-          value: `${randomMovY}px`,
+          value: `${coordinates[1]}px`,
           duration: 3000,
         },
       })
@@ -857,35 +788,22 @@ function newEnemy(src) {
   }
   if (src ==='glitchedcat.gif') {
     game.totalEnemies += 1
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
-    var xy = getRandomPosition(enemyElement)
-    let positionX = xy[0]
-    let positionY = xy[1]
-    enemyElement.style.top = `${positionX}px`
-    enemyElement.style.left = `${positionY}px`
-    enemyElement.style.right = `${positionX}px`
-    enemyElement.style.bottom = `${positionY}px`
+    let enemyElement = enemyConstructor(src)
     enemyElement.style.width = '400px'
     enemyElement.style.height = '400px'
     enemyElement.className = 'pixelcat glitchedcat' 
     enemyElement.setAttribute('lives', game.enemyTypes.glitchedcat.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
   if (src ==='theoriginalmeow.gif') {
     game.totalEnemies += 5
-    let enemyElement = document.createElement('img')
-    enemyElement.src = `assets/${src}`
+    let enemyElement = bossConstructor(src) 
     enemyElement.style.bottom = `50px`
     enemyElement.style.width = '702px'
     enemyElement.style.height = '778px'
     enemyElement.className = 'theoriginalmeow' 
     enemyElement.setAttribute('lives', game.enemyTypes.theoriginalmeow.lives)
-    enemyElement.addEventListener('click', clickEnemy)
-    enemyElement.addEventListener('contextmenu', clickEnemy)
     document.querySelector(".game-space").appendChild(enemyElement)
     game.enemyCount++
   }
@@ -971,7 +889,9 @@ function clickEnemy () {
   let lives = parseInt(this.getAttribute('lives'))
   lives -= 1
   if (lives === 0) {
+    // audio marked
     enemyDeathSound()
+    //
     game.points += 1
     if (game.points >= 100 && game.points < 200) {
       if (game.spawnOmnicat === false) {
@@ -1008,6 +928,7 @@ function clickEnemy () {
     this.removeEventListener('contextmenu', clickEnemy)
     this.style.pointerEvents = "none"
     let currentEnemy = this.classList
+    // enemy boss death detector
     if (currentEnemy.contains('omni')) {
       extraBombs()
       clearEnemy()
@@ -1049,6 +970,7 @@ function clickEnemy () {
         this.remove()
       }, 600)
     }
+    //
   }
   if (lives > 0) {
       var randomTurn = Math.floor(Math.random()*10) + 5
@@ -1064,11 +986,15 @@ function clickEnemy () {
       this.style.width = `${currentWidth}px`
       this.style.height = `${currentHeight}px`
       this.style.transform = `rotate(${randomTurn}deg)`
+      // audio marked
       enemyHitSound()
+      //
       lives.toString()
       this.setAttribute('lives', lives)  
   }
 }
+
+// function gameAudio() {
 
 function gameStartAudio () {
   game.audio.volume = 0.1
@@ -1119,5 +1045,7 @@ function gameStopAudio() {
     sounds[i].pause();
   }
 }
+  
+// }
 
 gameMain()
