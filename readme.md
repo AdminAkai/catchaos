@@ -1,4 +1,4 @@
-# Play ![Here](https://adminakai.github.io/)!
+# Play [Here](https://adminakai.github.io/)!
 
 # Wireframe
 ![Image of Wireframe](images/wireframe.jpg)
